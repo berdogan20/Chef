@@ -1,0 +1,16 @@
+.body-container {
+  /* background of body container */
+  background: rgb(255,255,255);
+  background: linear-gradient(90deg, rgba(255,255,255,0.950577731092437) 41%, rgba(250,250,250,0.6032387955182073) 100%);
+  /* borders */
+  margin-top: 8vh;
+  margin-bottom: 5vh;
+  margin-left: 5vw;
+  margin-right: 5vw;
+  min-height: 100vh;
+  border-radius: 3vh;
+  padding-left: 3vw;
+  padding-right: 3vw;
+  padding-top: 4vh;
+  padding-bottom: 4vh;
+}

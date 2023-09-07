@@ -1,0 +1,11 @@
+* {
+  font-family: 'Cormorant', serif;
+}
+
+body {
+  /* background: rgb(177,178,255);
+    background: linear-gradient(90deg, rgba(177,178,255,1) 27%, rgba(134,189,246,1) 57%, rgba(255,255,255,1) 100%); */
+
+  background: rgb(177,178,255);
+  background: linear-gradient(90deg, rgba(177,178,255,1) 0%, rgba(134,189,246,0.5032387955182073) 44%, rgba(221,236,255,1) 100%);
+}

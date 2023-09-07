@@ -1,0 +1,62 @@
+<header>
+    <div class="container">
+
+
+        <!--Categories-->
+        <div class="row">
+            <h1>Categories</h1>
+        </div>
+
+        <div class="row">
+            <ul>
+                <li><a id="All">All</a></li>
+                <li><a id="Pizza">Pizza</a></li>
+                <li><a id="Burger">Burger</a></li>
+                <li><a id="Breakfast">Breakfast</a></li>
+                <li><a id="Sushi">Sushi</a></li>
+                <li><a id="Soup">Soup</a></li>
+                <li><a id="Salad">Salad</a></li>
+            </ul>
+        </div>
+
+        <!--Food item-->
+
+        <header>
+            <div class="container">
+                <div class="food-list">
+                    <div class="food-item" *ngFor="let food of searchResult">
+                        <div class="card" style="width: 100%; height: 35rem; margin-bottom: 1.2rem;">
+
+                            <img [src]="food.imageUrl"
+                                 class="card-img-top">
+
+
+                            <small>  {{ food.preperationTime }} minutes </small>
+                            <small> $ {{ food.price }} </small>
+                            <div class="card-body">
+
+                                <h5 class="card-title"> {{ food.name }} </h5>
+
+                                <p class="card-text"> {{ food.description }} </p>
+
+                                <div class="button-row">
+                                    <button [routerLink]="['/buy-food', food.id]" class="food-item-button"
+                                            id="basket-button">
+                                        Look
+                                    </button>
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </header>
+
+       
+
+    </div>
+
+</header>

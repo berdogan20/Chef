@@ -1,0 +1,103 @@
+#navbar {
+  /* color: #fff; */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 0.75rem;
+}
+
+  #navbar ul {
+    list-style-type: none;
+    display: flex;
+    align-items: center;
+  }
+
+#navbar-logo {
+  font-family: 'Allura', cursive;
+  font-family: 'Great Vibes', cursive;
+  font-family: 'Qwitcher Grypen', cursive;
+  ;
+  font-size: 5.5rem;
+  text-decoration: none;
+  color: #5734D1;
+}
+
+#navbar ul li a {
+  padding: 0.4rem 1.2rem;
+  margin: 0.6rem;
+  border-radius: 0.75rem;
+  text-decoration: none;
+}
+
+  #navbar ul li a i {
+    color: #b1b2ff;
+  }
+
+    #navbar ul li a i:hover {
+      color: #86bdf6;
+    }
+
+
+#signin-button {
+  background-color: #b1b2ff;
+  color: white;
+}
+
+  #signin-button:hover {
+    color: #b1b2ff;
+    background-color: white;
+    border: 1px solid #b1b2ff;
+  }
+
+#register-button {
+  background-color: #86bdf6;
+  color: white;
+}
+
+  #register-button:hover {
+    color: #86bdf6;
+    background-color: white;
+    border: 1px solid #86bdf6;
+  }
+
+#profile-button {
+  background-color: #b1b2ff;
+  color: white;
+}
+
+  #profile-button:hover {
+    color: #b1b2ff;
+    background-color: white;
+    border: 1px solid #b1b2ff;
+  }
+
+#logout-button {
+  background-color: #86bdf6;
+  color: white;
+}
+
+  #logout-button:hover {
+    color: #86bdf6;
+    background-color: white;
+    border: 1px solid #86bdf6;
+  }
+
+#shopping-button:hover {
+  color: #86bdf6;
+}
+
+
+#slogan {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  padding: 6rem 1.5rem;
+  border-radius: 1.5rem;
+  background-image: url(header-background.jpg);
+  color: white;
+  background-size: cover;
+  background-position: center;
+}
+
+  #slogan h1 {
+    font-size: 3.5rem;
+  }
