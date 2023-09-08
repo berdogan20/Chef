@@ -7,23 +7,23 @@
             <a href="#" id="navbar-logo">Chef</a>
             <!-- before sign in -->
 
-            <ul>
-                <li><a href="#" id="signin-button" >Sign in</a></li>
-                <li><a href="#" id="register-button">Register</a></li>
-                <li><a href="#" id="shopping-button"><i class="fa-solid fa-cart-shopping"></i></a></li>
+            <ul *ngIf="!isUser() && !isAdmin()">
+                <li><a href="#" id="signin-button" routerLinkActive="active" routerLink="sign-in">Sign in</a></li>
+                <li><a href="#" id="register-button" routerLinkActive="active" routerLink="register">Register</a></li>
+                <li><a href="#" id="shopping-button" routerLinkActive="active" routerLink="basket"><i class="fa-solid fa-cart-shopping"></i></a></li>
             </ul>
 
             <!-- after sign in to user -->
-            <!--<ul>
-                <li><a id="profile-button">My profile</a></li>
-                <li><a id="logout-button">Log out</a></li>
-                <li><a id="shopping-button"><i class="fa-solid fa-cart-shopping"></i></a></li>
-            </ul>-->
+            <ul *ngIf="isUser()">
+                <li><a id="profile-button" routerLinkActive="active" routerLink="user-profile">My profile</a></li>
+                <li><a id="logout-button" (click)="redirectToMenu()">Log out</a></li>
+                <li><a id="shopping-button" routerLinkActive="active" routerLink="basket"><i class="fa-solid fa-cart-shopping"></i></a></li>
+            </ul>
 
             <!-- after sign in to admin -->
-            <!--<ul>
-                <li><a id="logout-button">Log out</a></li>
-            </ul>-->
+            <ul *ngIf="isAdmin()">
+                <li><a id="logout-button" (click)="redirectToMenu()">Log out</a></li>
+            </ul>
 
         </nav>
 

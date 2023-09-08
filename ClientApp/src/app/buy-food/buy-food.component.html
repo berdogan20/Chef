@@ -1,1 +1,56 @@
-<p>buy-food works!</p>
+<div class="container">
+
+    <div class="card mb-3" style="max-width: 100%;">
+        <div class="row g-0">
+            <div class="col-md-4">
+                <img [src]="food.imageUrl" class="img-fluid rounded-start" [alt]="food.name">
+            </div>
+
+            <div class="col-md-8">
+                <div class="card-body">
+                    <h5 class="card-title"> {{ food.name }} </h5>
+                    <p class="card-text"> {{ food.description }} </p>
+                    <p class="card-text"> It will be preperad in {{ food.preperationTime }} minutes </p>
+                    <p class="card-text">  $ {{ food.price }} </p>
+                </div>
+
+                <div class="card-body">
+                    <form [formGroup]="form" (ngSubmit)="buy()">
+                        <label class="form-label mt-5" for="numberOfOrders">Number of Orders</label>
+
+                        <input formControlName="number"
+                               type="number" class="form-control"
+                               id="numberOfOrders" name="numberOfOrders"
+                               style="max-width: 30%;"
+                               placeholder="Number of Orders" />
+                        <button type="submit" class="btn"
+                                style="width: 30%;">
+                            <i class="fas fa-food"></i>
+                            Buy
+                        </button>
+                    </form>
+                    <div *ngIf="number.invalid && (number.dirty || number.touched)" class="invalid-feedback d-block">
+                        <div *ngIf="number.errors?.['required']">
+                            How many servings do you want?
+                        </div>
+                        <div *ngIf="number.errors?.['min']">
+                            You can not buy less than 1 serving!
+                        </div>
+                        <div *ngIf="number.errors?.['max']">
+                            Our stocks do not have more than 10 servings.
+                        </div>
+                    </div>
+                </div>
+
+                
+
+            </div>
+
+
+            
+
+
+        </div>
+    </div>
+
+</div>

@@ -1,0 +1,47 @@
+header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-left: 25%;
+  margin-top: 2rem;
+}
+
+#email {
+  width: 60%;
+}
+
+#password {
+  width: 60%;
+}
+
+.container form button {
+  padding: 0.4rem 2rem;
+  background-color: #86bdf6;
+  color: white;
+}
+
+  .container form button:hover {
+    color: #86bdf6;
+    background-color: white;
+    border: 1px solid #86bdf6;
+  }
+
+#register {
+  background-color: transparent;
+  color: #86bdf6;
+  border: none;
+  border-radius: 1rem;
+  padding: 0.2rem;
+}
+
+  #register:hover {
+    color: #509578;
+  }
+
+input.ng-invalid.ng-touched {
+  border: 1px solid red;
+}
+
+.help-block {
+  color: rgb(223, 134, 134);
+}

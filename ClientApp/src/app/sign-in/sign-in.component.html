@@ -1,1 +1,67 @@
-<p>sign-in works!</p>
+<!-- <p>register works!</p> -->
+
+<header>
+    <div class="container">
+
+        <form [formGroup]="form">
+
+            <div class="form-group ">
+                <label for="email">Email</label>
+                <input type="email"
+                       name="email"
+                       class="form-control"
+                       id="email"
+                       placeholder="Enter email"
+                       formControlName="email"
+                       required
+                       (blur)="checkPassenger()"
+                       email>
+            </div>
+            <small *ngIf="noSuchEmail"
+                   class="form-text text-muted" style=" color: hsl(0, 78%, 75%)!important">
+                No such email
+            </small>
+
+            <div class="form-group ">
+                <label for="password">Password</label>
+                <input type="password"
+                       name="password"
+                       formControlName="password"
+                       class="form-control"
+                       id="password"
+                       placeholder="Password"
+                       required>
+            </div>
+            <small *ngIf="incorrectPassword"
+                   class="form-text text-muted" style=" color: hsl(0, 78%, 75%)!important">
+                Incorrect password
+            </small>
+
+
+            <div class="form-check">
+                <input type="checkbox"
+                       name="checkbox"
+                       class="form-check-input"
+                       id="checkbox"
+                       required>
+                <label class="form-check-label" for="gridCheck">
+                    Check me out
+                </label>
+            </div>
+
+
+            <br>
+            <button (click)="signin()"
+                    type="submit"
+                    class="btn btn-primary"
+                    aria-hidden="true">
+                Sign in
+            </button>
+
+
+
+
+        </form>
+
+    </div>
+</header>

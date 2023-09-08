@@ -5,6 +5,8 @@ import { HttpClient } from '@angular/common/http';
 import { ApiConfiguration, ApiConfigurationParams } from './api-configuration';
 
 import { FoodService } from './services/food.service';
+import { OrderService } from './services/order.service';
+import { UserService } from './services/user.service';
 
 /**
  * Module that provides all services and configuration.
@@ -15,6 +17,8 @@ import { FoodService } from './services/food.service';
   declarations: [],
   providers: [
     FoodService,
+    OrderService,
+    UserService,
     ApiConfiguration
   ],
 })

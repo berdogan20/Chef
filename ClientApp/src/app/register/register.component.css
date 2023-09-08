@@ -1,0 +1,32 @@
+header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-left: 25%;
+  margin-top: 2rem;
+}
+
+#email {
+  width: 60%;
+}
+
+#password {
+  width: 60%;
+}
+
+#address {
+  width: 60%;
+  height: 6rem;
+}
+
+.container form button {
+  padding: 0.4rem 2rem;
+  background-color: #86bdf6;
+  color: white;
+}
+
+  .container form button:hover {
+    color: #86bdf6;
+    background-color: white;
+    border: 1px solid #86bdf6;
+  }
