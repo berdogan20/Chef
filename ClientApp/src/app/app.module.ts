@@ -45,7 +45,7 @@ import { MyOrdersComponent } from './my-orders/my-orders.component';
       { path: 'admin', component: AdminProfileComponent },
       { path: 'sign-in', component: SignInComponent },
       { path: 'register', component: RegisterComponent },
-      { path: 'my-orders', component: MyOrdersComponent }
+      { path: 'my-orders', component: MyOrdersComponent, canActivate: [AuthGuard] }
 
     ])
   ],

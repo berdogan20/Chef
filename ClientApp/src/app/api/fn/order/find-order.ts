@@ -9,13 +9,13 @@ import { RequestBuilder } from '../../request-builder';
 import { OrderRm } from '../../models/order-rm';
 
 export interface FindOrder$Params {
-  id: string;
+  email: string;
 }
 
 export function findOrder(http: HttpClient, rootUrl: string, params: FindOrder$Params, context?: HttpContext): Observable<StrictHttpResponse<OrderRm>> {
   const rb = new RequestBuilder(rootUrl, findOrder.PATH, 'get');
   if (params) {
-    rb.path('id', params.id, {});
+    rb.path('email', params.email, {});
   }
 
   return http.request(
@@ -28,4 +28,4 @@ export function findOrder(http: HttpClient, rootUrl: string, params: FindOrder$P
   );
 }
 
-findOrder.PATH = '/Order/{id}';
+findOrder.PATH = '/Order/{email}';
