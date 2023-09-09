@@ -1,5 +1,8 @@
 {
   "dependencies": {
     "ng-openapi-gen": "^0.50.2"
+  },
+  "devDependencies": {
+    "@types/uuid": "^9.0.3"
   }
 }

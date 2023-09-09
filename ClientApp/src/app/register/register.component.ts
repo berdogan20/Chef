@@ -32,24 +32,27 @@ export class RegisterComponent {
 
 
   register() {
-
     if (this.form.invalid)
       return;
 
     console.log("Form Values:", this.form.value);
 
-
     this.userService.registerUser({ body: this.form.value })
-      .subscribe(this.login,
-        e => {
+      .subscribe(
+        (_) => {
+          if (!this.emailExists) {
+            console.log("Added");
+            this.login();
+          }
+        },
+        (e) => {
           if (e.status == 500) {
             this.emailExists = true;
-          }
-          else {
+          } else {
             console.log(e.error);
           }
-        });
-
+        }
+      );
   }
 
   checkPassenger(): void {
@@ -67,7 +70,6 @@ export class RegisterComponent {
 
 
   private login = () => {
-    console.log("Hello");
     this.authService.loginUser({
       address: this.form.get('address')?.value!,
       email: this.form.get('email')?.value!,

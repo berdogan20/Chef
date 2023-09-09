@@ -3,8 +3,10 @@ namespace Chef.Domain.Entities
 {
 	public class Order
 	{
-        public Guid Id { get; set; }
+        public string OrderId { get; set; }
+        public Guid FoodId { get; set; }
         public string OrderOwner { get; set; }
+        public byte Amount { get; set; }
         public string Address { get; set; }
         public string Status { get; set; }
 
@@ -14,13 +16,17 @@ namespace Chef.Domain.Entities
         }
 
         public Order(
-            Guid id,
+            string orderId,
+            Guid foodId,
             string orderOwner,
+            byte amount,
             string address,
             string status)
         {
-            Id = id;
+            OrderId = orderId;
+            FoodId = foodId;
             OrderOwner = orderOwner;
+            Amount = amount;
             Address = address;
             Status = status;
         }

@@ -10,7 +10,7 @@ import { Router } from '@angular/router';
 export class HeaderComponent implements OnInit {
 
   constructor(private authService: AuthService,
-              private router: Router) { }
+    private router: Router) { }
 
   ngOnInit(): void {
   }
@@ -25,6 +25,14 @@ export class HeaderComponent implements OnInit {
 
 
   redirectToMenu() {
+    this.router.navigate(['/menu']);
+  }
+
+  logout() {
+    this.authService.currentUser = undefined;
+    this.authService.admin = false;
+
+    
     this.router.navigate(['/menu']);
   }
 }

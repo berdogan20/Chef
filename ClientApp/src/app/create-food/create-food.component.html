@@ -1,0 +1,76 @@
+
+<div class="container">
+    <form [formGroup]="form">
+        <div class="card mb-3" style="max-width: 100%;">
+            <div class="row">
+                <!--food image-->
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="imagePath">Image URL</label>
+                        <input type="text"
+                               id="imagePath"
+                               formControlName="imageUrl"
+                               class="form-control"
+                               #imageUrl>
+                    </div>
+                    <div class="row">
+                        <img [src]="imageUrl.value" class="img-responsive">
+                    </div>
+                </div>
+
+
+                <!--food information-->
+                <div class="col-md-8">
+
+                    <div class="card-body">
+                        <!--name-->
+                        <div class="form-group">
+                            <label for="name">Name</label>
+                            <input type="text"
+                                   class="form-control"
+                                   id="name"
+                                   formControlName="name"
+                                   required>
+                        </div>
+                        <!--description-->
+                        <div class="form-group">
+                            <label for="description">Description</label>
+                            <textarea type="text"
+                                      class="form-control"
+                                      id="description"
+                                      formControlName="description"
+                                      required>
+
+                        </textarea>
+                        </div>
+                        <!--price-->
+                        <div class="form-group">
+                            <label for="price">Price</label>
+                            <input formControlName="price"
+                                   type="number" class="form-control"
+                                   id="price" name="price"
+                                   style="max-width: 30%;"
+                                   required />
+                        </div>
+                        <!--preperationTime-->
+                        <div class="form-group">
+                            <label for="preperationTime">Preperation Time</label>
+                            <input formControlName="preperationTime"
+                                   type="number" class="form-control"
+                                   id="preperationTime" name="preperationTime"
+                                   style="max-width: 30%;" />
+                        </div>
+                        <!--submit button-->
+                        <br />
+                        <button (click)="createFood()" type="submit" class="btn">Submit</button>
+                        <!--remove button-->
+                        <button (click)="cancel()" type="button" class="btn delete-button">Cancel</button>
+                    </div>
+
+
+                </div>
+
+            </div>
+        </div>
+    </form>
+</div>

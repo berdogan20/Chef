@@ -3,6 +3,7 @@ using Chef.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;                           // * To set up swagger and openAPI
 
+
 var builder = WebApplication.CreateBuilder(args);
 
 
@@ -121,6 +122,15 @@ Food[] foodsToSeed = new Food[]
 };
 entities.Foods.AddRange(foodsToSeed);
 
+User[] usersToSeed = new User[]
+{
+    new User("admin@gmail.com", "admin", "Istanbul Sariyer Chef"),
+    new User("aysel@gmail.com", "aysel", "Kirsehir Merkez Kayabasi"),
+    new User("beyza@gmail.com", "beyza", "Istanbul Sariyer Rumelifeneri"),
+    new User("isa@gmail.com", "isa", "Kortulu Koyu"),
+    new User("yunus@gmail.com", "yunus", "Istanbul Besiktas")
+};
+entities.Users.AddRange(usersToSeed);
 
 entities.SaveChanges();
 

@@ -2,9 +2,11 @@
 namespace Chef.Dtos
 {
 	public record OrderDto(
-		Guid Id,
+		string OrderId,
+		Guid FoodId,
 		string OrderOwner,
-		string Address,
+        byte Amount,
+        string Address,
 		string Status);
 }
 

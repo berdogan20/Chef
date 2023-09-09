@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { FoodService } from './../api/services/food.service';
 import { FoodRm } from '../api/models';
+import { AuthService } from '../auth/auth.service';
 
 @Component({
   selector: 'app-menu',
@@ -11,11 +12,21 @@ export class MenuComponent {
 
   searchResult: FoodRm[] = [];
 
-  constructor(private foodService: FoodService) { }
+  constructor(private foodService: FoodService,
+    private authService: AuthService) { }
 
   ngOnInit(): void {
     this.search();
   }
+
+  isUser() {
+    return this.authService.currentUser != null && this.authService.admin == false;
+  }
+
+  isAdmin() {
+    return this.authService.admin;
+  }
+
 
   search() {
     this.foodService.searchFood({})

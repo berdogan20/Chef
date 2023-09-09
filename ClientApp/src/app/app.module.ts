@@ -17,6 +17,9 @@ import { AdminProfileComponent } from './admin-profile/admin-profile.component';
 import { BuyFoodComponent } from './buy-food/buy-food.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MyOrdersComponent } from './my-orders/my-orders.component';
+import { OrdersComponent } from './orders/orders.component';
+import { EditFoodComponent } from './edit-food/edit-food.component';
+import { CreateFoodComponent } from './create-food/create-food.component';
 
 
 @NgModule({
@@ -30,7 +33,10 @@ import { MyOrdersComponent } from './my-orders/my-orders.component';
     UserProfileComponent,
     AdminProfileComponent,
     BuyFoodComponent,
-    MyOrdersComponent
+    MyOrdersComponent,
+    OrdersComponent,
+    EditFoodComponent,
+    CreateFoodComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -40,8 +46,12 @@ import { MyOrdersComponent } from './my-orders/my-orders.component';
     RouterModule.forRoot([
       { path: '', component: MenuComponent, pathMatch: 'full' },
       { path: 'menu', component: MenuComponent },
-      { path: 'buy-food/:foodId', component: BuyFoodComponent, canActivate: [AuthGuard]},
-      { path: 'user-profile', component: UserProfileComponent, canActivate: [AuthGuard]},
+      { path: 'buy-food/:foodId', component: BuyFoodComponent, canActivate: [AuthGuard] },
+      { path: 'edit-food/:foodId', component: EditFoodComponent },
+      { path: 'user-profile', component: UserProfileComponent, canActivate: [AuthGuard] },
+      { path: 'admin-profile', component: AdminProfileComponent },
+      { path: 'orders', component: OrdersComponent },
+      { path: 'create-food', component: CreateFoodComponent },
       { path: 'admin', component: AdminProfileComponent },
       { path: 'sign-in', component: SignInComponent },
       { path: 'register', component: RegisterComponent },

@@ -4,25 +4,33 @@
     <div class="container">
 
         <nav id="navbar">
-            <a href="#" id="navbar-logo">Chef</a>
+
+            <a 
+               id="navbar-logo"
+               routerLinkActive="active" routerLink="menu">
+                Chef
+            </a>
+
             <!-- before sign in -->
 
             <ul *ngIf="!isUser() && !isAdmin()">
-                <li><a href="#" id="signin-button" routerLinkActive="active" routerLink="sign-in">Sign in</a></li>
-                <li><a href="#" id="register-button" routerLinkActive="active" routerLink="register">Register</a></li>
-                <li><a href="#" id="shopping-button" routerLinkActive="active" routerLink="basket"><i class="fa-solid fa-cart-shopping"></i></a></li>
+                <li><a id="signin-button" routerLinkActive="active" routerLink="sign-in">Sign in</a></li>
+                <li><a id="register-button" routerLinkActive="active" routerLink="register">Register</a></li>
             </ul>
 
             <!-- after sign in to user -->
-            <ul *ngIf="isUser()">
+
+            <ul *ngIf="isUser() && !isAdmin()">
                 <li><a id="profile-button" routerLinkActive="active" routerLink="user-profile">My profile</a></li>
-                <li><a id="logout-button" (click)="redirectToMenu()">Log out</a></li>
-                <li><a id="shopping-button" routerLinkActive="active" routerLink="basket"><i class="fa-solid fa-cart-shopping"></i></a></li>
+                <li><a id="logout-button" (click)="logout()">Log out</a></li>
+                <li><a id="shopping-button" routerLinkActive="active" routerLink="my-orders"><i class="fa-solid fa-cart-shopping"></i></a></li>
             </ul>
 
             <!-- after sign in to admin -->
+
             <ul *ngIf="isAdmin()">
-                <li><a id="logout-button" (click)="redirectToMenu()">Log out</a></li>
+                <li><a id="shopping-button" routerLinkActive="active" routerLink="orders"><i class="fa-solid fa-cart-shopping"></i></a></li>
+                <li><a id="logout-button" (click)="logout()">Log out</a></li>
             </ul>
 
         </nav>

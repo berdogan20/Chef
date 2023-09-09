@@ -25,12 +25,12 @@
             <div class="form-group ">
                 <label for="password">Password</label>
                 <input type="password"
-                       name="password"
-                       formControlName="password"
-                       class="form-control"
-                       id="password"
-                       placeholder="Password"
-                       required>
+                       name="password" formControlName="password"
+                       id="password" placeholder="Password" required
+                       class="form-control ng-untouched ng-pristine ng-invalid"
+                       ng-reflect-required ng-reflect-name="password"
+                       autocomplete="current-password">
+
             </div>
             <small *ngIf="incorrectPassword"
                    class="form-text text-muted" style=" color: hsl(0, 78%, 75%)!important">
@@ -53,7 +53,7 @@
             <br>
             <button (click)="signin()"
                     type="submit"
-                    class="btn btn-primary"
+                    class="btn btn-primary "
                     aria-hidden="true">
                 Sign in
             </button>

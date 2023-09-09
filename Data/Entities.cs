@@ -24,6 +24,12 @@ namespace Chef.Data
             // set user's email as id
             modelBuilder.Entity<User>().HasKey(p => p.Email);
 
+            modelBuilder.Entity<Order>().HasKey(o => o.OrderId);
+
+            modelBuilder.Entity<Food>().HasKey(f => f.Id);
+
+            modelBuilder.Entity<Category>().HasKey(c => c.Id);
+
             base.OnModelCreating(modelBuilder);
         }
 

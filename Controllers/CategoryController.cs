@@ -11,7 +11,8 @@ using Microsoft.AspNetCore.Mvc;
 namespace Chef.Controllers
 {
     [Route("[controller]")]
-    public class CategoryController : Controller
+    [ApiController]
+    public class CategoryController : ControllerBase
     {
         private readonly Entities _entities;  // To inject the entities singleton
 

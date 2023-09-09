@@ -11,6 +11,10 @@ import { StrictHttpResponse } from '../strict-http-response';
 
 import { buyOrder } from '../fn/order/buy-order';
 import { BuyOrder$Params } from '../fn/order/buy-order';
+import { findByIdOrder } from '../fn/order/find-by-id-order';
+import { FindByIdOrder$Params } from '../fn/order/find-by-id-order';
+import { findByIdOrder$Plain } from '../fn/order/find-by-id-order-plain';
+import { FindByIdOrder$Plain$Params } from '../fn/order/find-by-id-order-plain';
 import { findOrder } from '../fn/order/find-order';
 import { FindOrder$Params } from '../fn/order/find-order';
 import { findOrder$Plain } from '../fn/order/find-order-plain';
@@ -193,6 +197,53 @@ export class OrderService extends BaseService {
    */
   findOrder(params: FindOrder$Params, context?: HttpContext): Observable<OrderRm> {
     return this.findOrder$Response(params, context).pipe(
+      map((r: StrictHttpResponse<OrderRm>): OrderRm => r.body)
+    );
+  }
+
+  /** Path part for operation `findByIdOrder()` */
+  static readonly FindByIdOrderPath = '/Order/{id}';
+
+  /**
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `findByIdOrder$Plain()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  findByIdOrder$Plain$Response(params: FindByIdOrder$Plain$Params, context?: HttpContext): Observable<StrictHttpResponse<OrderRm>> {
+    return findByIdOrder$Plain(this.http, this.rootUrl, params, context);
+  }
+
+  /**
+   * This method provides access only to the response body.
+   * To access the full response (for headers, for example), `findByIdOrder$Plain$Response()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  findByIdOrder$Plain(params: FindByIdOrder$Plain$Params, context?: HttpContext): Observable<OrderRm> {
+    return this.findByIdOrder$Plain$Response(params, context).pipe(
+      map((r: StrictHttpResponse<OrderRm>): OrderRm => r.body)
+    );
+  }
+
+  /**
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `findByIdOrder()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  findByIdOrder$Response(params: FindByIdOrder$Params, context?: HttpContext): Observable<StrictHttpResponse<OrderRm>> {
+    return findByIdOrder(this.http, this.rootUrl, params, context);
+  }
+
+  /**
+   * This method provides access only to the response body.
+   * To access the full response (for headers, for example), `findByIdOrder$Response()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  findByIdOrder(params: FindByIdOrder$Params, context?: HttpContext): Observable<OrderRm> {
+    return this.findByIdOrder$Response(params, context).pipe(
       map((r: StrictHttpResponse<OrderRm>): OrderRm => r.body)
     );
   }

@@ -1,10 +1,11 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
+
 namespace Chef.Dtos
 {
 	public record UserDto(
-        string Email,
-        string FirstName,
-        string LastName,
-        string Password);
+        [Required][EmailAddress][StringLength(100, MinimumLength = 3)] string Email,
+        [Required][MinLength(2)][MaxLength(35)] string Password,
+        [Required][MinLength(10)][MaxLength(200)] string Address);
 }
 

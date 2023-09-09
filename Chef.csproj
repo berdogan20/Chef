@@ -28,6 +28,7 @@
     <None Remove="Domain\Errors\" />
     <None Remove="ReadModels\" />
     <None Remove="Dtos\" />
+    <None Remove="ClientApp\src\app\auth\" />
   </ItemGroup>
 
   <ItemGroup>
@@ -37,6 +38,7 @@
     <Folder Include="Domain\Errors\" />
     <Folder Include="ReadModels\" />
     <Folder Include="Dtos\" />
+    <Folder Include="ClientApp\src\app\auth\" />
   </ItemGroup>
     <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">
     <!-- Ensure Node.js is installed -->

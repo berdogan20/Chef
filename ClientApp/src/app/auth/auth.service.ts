@@ -13,6 +13,13 @@ export class AuthService {
 
   loginUser(user: UserRm) {
     console.log("Log in the user with email " + user.email)
+
+    // Admin check
+    if (user.email == "admin@gmail.com" &&
+      user.password == "admin") {
+      this.admin = true;
+    }
+
     this.currentUser = user
   }
 }

@@ -2,9 +2,11 @@
 namespace Chef.ReadModels
 {
 	public record OrderRm(
-		Guid Id,
+		string OrderId,
+		Guid FoodId,
 		string OrderOwner,
-		string Address,
+        byte Amount,
+        string Address,
 		string Status);
 }
 
