@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { FoodService, OrderService } from '../api/services';
+import { CategoryService, FoodService, OrderService, UserService } from '../api/services';
 import { ActivatedRoute, Router } from '@angular/router';
-import { FoodRm, OrderDto } from '../api/models';
+import { FoodRm, OrderDto, OrderItem } from '../api/models';
 import { FormBuilder, Validators } from '@angular/forms';
 import { AuthService } from '../auth/auth.service';
+import { v4 as uuidv4 } from 'uuid';
 
 
 @Component({
@@ -11,10 +12,11 @@ import { AuthService } from '../auth/auth.service';
   templateUrl: './buy-food.component.html',
   styleUrls: ['./buy-food.component.css']
 })
-export class BuyFoodComponent implements OnInit {
+export class BuyFoodComponent {
 
   foodId: string = 'not loaded';
   food: FoodRm = {};
+  category: string = "";
 
 
   constructor(private route: ActivatedRoute,
@@ -22,6 +24,8 @@ export class BuyFoodComponent implements OnInit {
     private authService: AuthService,
     private foodService: FoodService,
     private orderService: OrderService,
+    private userService: UserService,
+    private categoryService: CategoryService,
     private fb: FormBuilder  ) { }
 
 
@@ -39,11 +43,12 @@ export class BuyFoodComponent implements OnInit {
 
     this.foodService.findFood({ id: this.foodId })
       .subscribe(
-        food => this.food = food,
+        food => {
+          this.food = food
+          this.getCategory(this.food.categoryId!);
+        },
         err => this.handleError(err)
       );
-
-    console.log(this.foodId)
    }
 
   private handleError = (err: any) => {
@@ -64,35 +69,36 @@ export class BuyFoodComponent implements OnInit {
     console.log(err)
   }
 
-  buy() {
+  addToBasket() {
 
     if (this.form.invalid)
       return;
 
-      // I will use Dto
-      // because it will be a post operation
 
-    const order: OrderDto = {
-      address: this.authService.currentUser?.address!,
+    const orderItem: OrderItem = {
       amount: this.form.get('number')?.value!,
-      foodId: this.food.id,
-      orderId: Date.now().toString(), // Using current timestamp as orderId
-      orderOwner: this.authService.currentUser?.email!,
-      status: "Your order has been received."
+      foodItemId: this.food.id,
+      orderItemId: uuidv4().toString(),
+      price: this.food.price
     }
 
-    console.log(order);
 
-    this.orderService.buyOrder({ body: order })
-      .subscribe(
-        _ => this.router.navigate(['/my-orders']),
-        err => this.handleError(err)
-      );
+    console.log(orderItem);
 
-  
+    this.userService.addToBasketUser({ email: this.authService.currentUser?.email!, body: orderItem })
+      .subscribe(_ => {
+        this.router.navigate(['/basket']);
+      },
+        err => this.handleError(err));  
   }
 
   get number() {
     return this.form.controls.number
+  }
+
+  getCategory(id: number) {
+    this.categoryService.findCategory({ id: id })
+      .subscribe(rm => this.category = rm.name!,
+        err => this.handleError(err));
   }
 }

@@ -23,7 +23,7 @@
             <ul *ngIf="isUser() && !isAdmin()">
                 <li><a id="profile-button" routerLinkActive="active" routerLink="user-profile">My profile</a></li>
                 <li><a id="logout-button" (click)="logout()">Log out</a></li>
-                <li><a id="shopping-button" routerLinkActive="active" routerLink="my-orders"><i class="fa-solid fa-cart-shopping"></i></a></li>
+                <li><a id="shopping-button" routerLinkActive="active" routerLink="basket"><i class="fa-solid fa-cart-shopping"></i></a></li>
             </ul>
 
             <!-- after sign in to admin -->

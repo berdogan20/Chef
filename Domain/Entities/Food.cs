@@ -1,4 +1,6 @@
 ﻿using System;
+using Chef.ReadModels;
+
 namespace Chef.Domain.Entities
 {
 
@@ -7,6 +9,7 @@ namespace Chef.Domain.Entities
 	public class Food
 	{
         public Guid Id { get; set; }
+        public byte CategoryId { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
         public string ImageUrl { get; set; }
@@ -16,7 +19,8 @@ namespace Chef.Domain.Entities
         public Food() { }
 
         public Food(
-            Guid id,
+        Guid id,
+            byte categoryId,
             string name,
             string description,
             string imageUrl,
@@ -24,6 +28,7 @@ namespace Chef.Domain.Entities
             int price)
         {
             Id = id;
+            CategoryId = categoryId;
             Name = name;
             Description = description;
             ImageUrl = imageUrl;

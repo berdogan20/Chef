@@ -24,6 +24,10 @@ import { FindFood$Params } from '../fn/food/find-food';
 import { findFood$Plain } from '../fn/food/find-food-plain';
 import { FindFood$Plain$Params } from '../fn/food/find-food-plain';
 import { FoodRm } from '../models/food-rm';
+import { getByCategoryIdFood } from '../fn/food/get-by-category-id-food';
+import { GetByCategoryIdFood$Params } from '../fn/food/get-by-category-id-food';
+import { getByCategoryIdFood$Plain } from '../fn/food/get-by-category-id-food-plain';
+import { GetByCategoryIdFood$Plain$Params } from '../fn/food/get-by-category-id-food-plain';
 import { searchFood } from '../fn/food/search-food';
 import { SearchFood$Params } from '../fn/food/search-food';
 import { searchFood$Plain } from '../fn/food/search-food-plain';
@@ -126,6 +130,53 @@ export class FoodService extends BaseService {
   createFood(params?: CreateFood$Params, context?: HttpContext): Observable<FoodRm> {
     return this.createFood$Response(params, context).pipe(
       map((r: StrictHttpResponse<FoodRm>): FoodRm => r.body)
+    );
+  }
+
+  /** Path part for operation `getByCategoryIdFood()` */
+  static readonly GetByCategoryIdFoodPath = '/Food/byCategory/{categoryId}';
+
+  /**
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `getByCategoryIdFood$Plain()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  getByCategoryIdFood$Plain$Response(params: GetByCategoryIdFood$Plain$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<FoodRm>>> {
+    return getByCategoryIdFood$Plain(this.http, this.rootUrl, params, context);
+  }
+
+  /**
+   * This method provides access only to the response body.
+   * To access the full response (for headers, for example), `getByCategoryIdFood$Plain$Response()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  getByCategoryIdFood$Plain(params: GetByCategoryIdFood$Plain$Params, context?: HttpContext): Observable<Array<FoodRm>> {
+    return this.getByCategoryIdFood$Plain$Response(params, context).pipe(
+      map((r: StrictHttpResponse<Array<FoodRm>>): Array<FoodRm> => r.body)
+    );
+  }
+
+  /**
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `getByCategoryIdFood()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  getByCategoryIdFood$Response(params: GetByCategoryIdFood$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<FoodRm>>> {
+    return getByCategoryIdFood(this.http, this.rootUrl, params, context);
+  }
+
+  /**
+   * This method provides access only to the response body.
+   * To access the full response (for headers, for example), `getByCategoryIdFood$Response()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  getByCategoryIdFood(params: GetByCategoryIdFood$Params, context?: HttpContext): Observable<Array<FoodRm>> {
+    return this.getByCategoryIdFood$Response(params, context).pipe(
+      map((r: StrictHttpResponse<Array<FoodRm>>): Array<FoodRm> => r.body)
     );
   }
 

@@ -4,11 +4,12 @@ namespace Chef.Domain.Entities
 	public class Order
 	{
         public string OrderId { get; set; }
-        public Guid FoodId { get; set; }
+        public DateTime OrderDate { get; set; }
         public string OrderOwner { get; set; }
-        public byte Amount { get; set; }
         public string Address { get; set; }
         public string Status { get; set; }
+
+        public IList<OrderItem> OrderItems = new List<OrderItem>();
 
         public Order()
         {
@@ -17,16 +18,14 @@ namespace Chef.Domain.Entities
 
         public Order(
             string orderId,
-            Guid foodId,
+            DateTime orderDate,
             string orderOwner,
-            byte amount,
             string address,
             string status)
         {
             OrderId = orderId;
-            FoodId = foodId;
+            OrderDate = orderDate;
             OrderOwner = orderOwner;
-            Amount = amount;
             Address = address;
             Status = status;
         }

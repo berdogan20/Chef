@@ -1,6 +1,7 @@
 /* tslint:disable */
 /* eslint-disable */
 export interface FoodDto {
+  categoryId?: number;
   description?: null | string;
   id?: string;
   imageUrl?: null | string;

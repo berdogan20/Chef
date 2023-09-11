@@ -6,15 +6,36 @@
             <h1>Categories</h1>
         </div>
 
-        <div class="row">
+        <div class="row categories">
             <ul>
-                <li><a id="All">All</a></li>
-                <li><a id="Pizza">Pizza</a></li>
-                <li><a id="Burger">Burger</a></li>
-                <li><a id="Breakfast">Breakfast</a></li>
-                <li><a id="Sushi">Sushi</a></li>
-                <li><a id="Soup">Soup</a></li>
-                <li><a id="Salad">Salad</a></li>
+                <li>
+                    <a (click)="filterCategories(null)" id="All">All</a>
+                    <a *ngFor="let category of categories" (click)="filterCategories(category.id!)">
+                        {{ category.name }}
+                    </a>
+                    <!--Admin can create a new category-->
+                    <a *ngIf="isAdmin()">
+                        <!-- Initialize a variable to track whether the user is in "add mode" -->
+                        <div class="row">
+                            <div class="col-auto" *ngIf="!isAddingCategory; else addCategoryInput">
+                                <div (click)="toggleAddCategoryMode()">
+                                    <i class="fa-solid fa-plus"></i> Add New Category
+                                </div>
+                            </div>
+
+                            <!-- Template for the input field when in "add mode" -->
+                            <ng-template #addCategoryInput>
+                                <div class="col-auto">
+                                    <input class="form-control-plaintext" [(ngModel)]="newCategoryName" placeholder="Enter category name" />
+                                </div>
+                                <div class="col-auto">
+                                    <button class="btn btn-primary mb-2" (click)="saveNewCategory()">Save</button>
+                                </div>
+                            </ng-template>
+                        </div>
+                    </a>
+
+                </li>
             </ul>
         </div>
 

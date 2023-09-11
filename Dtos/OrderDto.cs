@@ -1,12 +1,14 @@
 ﻿using System;
+using Chef.Domain.Entities;
+
 namespace Chef.Dtos
 {
 	public record OrderDto(
-		string OrderId,
-		Guid FoodId,
-		string OrderOwner,
-        byte Amount,
+
+        string OrderId,
+        DateTime OrderDate,
+        string OrderOwner,
         string Address,
-		string Status);
+        string Status);
 }
 

@@ -11,7 +11,7 @@ import { forkJoin } from 'rxjs';
   templateUrl: './orders.component.html',
   styleUrls: ['./orders.component.css']
 })
-export class OrdersComponent implements OnInit {
+export class OrdersComponent {
 
   orders: OrderRm[] = [];
   foods: FoodRm[] = [];
@@ -20,29 +20,29 @@ export class OrdersComponent implements OnInit {
     private foodService: FoodService,
     private authService: AuthService) { }
 
-  ngOnInit(): void {
+  //ngOnInit(): void {
 
-    this.orderService.searchOrder({ })
-      .subscribe(
-        (orders) => {
-          this.orders = orders;
+  //  this.orderService.searchOrder({ })
+  //    .subscribe(
+  //      (orders) => {
+  //        this.orders = orders;
 
-          // Fetch food data for each order
-          const foodObservables = orders.map((order) =>
-            this.foodService.findFood({ id: order.foodId! })
-          );
+  //        // Fetch food data for each order
+  //        const foodObservables = orders.map((order) =>
+  //          this.foodService.findFood({ id: order.foodId! })
+  //        );
 
-          forkJoin(foodObservables).subscribe(
-            (foods) => {
-              // All food requests have completed here
-              this.foods = foods;
-            },
-            (err) => this.handleError(err)
-          );
-        },
-        (err) => this.handleError(err)
-      );
-  }
+  //        forkJoin(foodObservables).subscribe(
+  //          (foods) => {
+  //            // All food requests have completed here
+  //            this.foods = foods;
+  //          },
+  //          (err) => this.handleError(err)
+  //        );
+  //      },
+  //      (err) => this.handleError(err)
+  //    );
+  //}
 
   //search() {
   //  this.orderService.searchOrder({})

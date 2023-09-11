@@ -16,6 +16,7 @@ public class FoodController : ControllerBase
 
     private readonly ILogger<FoodController> _logger;
     private readonly Entities _entities;  // To inject the entities singleton
+    
 
     public FoodController(ILogger<FoodController> logger, Entities entities)
     {
@@ -30,41 +31,85 @@ public class FoodController : ControllerBase
     public IEnumerable<FoodRm> Search()
     {
         var FoodRmList = _entities.Foods.Select(food => new FoodRm(
-            food.Id,
-            food.Name,
-            food.Description,
-            food.ImageUrl,
-            food.PreperationTime,
-            food.Price
+                food.Id,
+                food.CategoryId,
+                food.Name,
+                food.Description,
+                food.ImageUrl,
+                food.PreperationTime,
+                food.Price
             ));
 
         return FoodRmList;
     }
 
-
-    [ProducesResponseType(StatusCodes.Status404NotFound)]
-    [HttpGet("{id}")]
-    [ProducesResponseType(400)]
-    [ProducesResponseType(500)]
-    [ProducesResponseType(typeof(FoodRm), 200)]
-    public ActionResult<FoodRm> Find(Guid id)
+    [HttpGet("byCategory/{categoryId}")]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    [ProducesResponseType(typeof(IEnumerable<FoodRm>), StatusCodes.Status200OK)]
+    public IActionResult GetByCategoryId(byte categoryId)
     {
-        var food = _entities.Foods.SingleOrDefault(f => f.Id == id);  // I got error in this line
+        try
+        {
+            var foodList = _entities.Foods
+                .Where(food => food.CategoryId == categoryId)
+                .Select(food => new FoodRm(
+                    food.Id,
+                    food.CategoryId,
+                    food.Name,
+                    food.Description,
+                    food.ImageUrl,
+                    food.PreperationTime,
+                    food.Price
+                ))
+                .ToList();
 
-        if (food == null)
-            return NotFound();
+            return Ok(foodList);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error retrieving food items by CategoryId.");
+            return StatusCode(StatusCodes.Status500InternalServerError);
+        }
+    }
 
-        var readModel = new FoodRm(
-            food.Id,
-            food.Name,
-            food.Description,
-            food.ImageUrl,
-            food.PreperationTime,
-            food.Price
+
+
+    [HttpGet("{id}", Name = "FindFoodById")]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    [ProducesResponseType(typeof(FoodRm), StatusCodes.Status200OK)]
+    public async Task<ActionResult<FoodRm>> Find(Guid id)
+    {
+        try
+        {
+            var food = await _entities.Foods
+                .SingleOrDefaultAsync(f => f.Id == id);
+
+            if (food == null)
+                return NotFound();
+
+            var foodRm = new FoodRm(
+                food.Id,
+                food.CategoryId,
+                food.Name,
+                food.Description,
+                food.ImageUrl,
+                food.PreperationTime,
+                food.Price
             );
 
-        return Ok(readModel);
+            return Ok(foodRm);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error finding food item by ID.");
+            return StatusCode(StatusCodes.Status500InternalServerError);
+        }
     }
+
+   
+
 
 
     [HttpPut("{id}")]
@@ -99,6 +144,7 @@ public class FoodController : ControllerBase
 
         var updatedFoodRm = new FoodRm(
             food.Id,
+            food.CategoryId,
             food.Name,
             food.Description,
             food.ImageUrl,
@@ -143,7 +189,8 @@ public class FoodController : ControllerBase
     {
         var newFood = new Food
         {
-            Id = Guid.NewGuid(), 
+            Id = Guid.NewGuid(),
+            CategoryId = dto.CategoryId,
             Name = dto.Name,
             Description = dto.Description,
             ImageUrl = dto.ImageUrl,
@@ -163,7 +210,8 @@ public class FoodController : ControllerBase
         }
 
         var createdFoodRm = new FoodRm(
-            newFood.Id, 
+            newFood.Id,
+            newFood.CategoryId,
             newFood.Name,
             newFood.Description,
             newFood.ImageUrl,

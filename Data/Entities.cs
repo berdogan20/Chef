@@ -14,6 +14,8 @@ namespace Chef.Data
 
         public DbSet<Order> Orders => Set<Order>();
 
+        public DbSet<OrderItem> OrderItems => Set<OrderItem>();
+
         public Entities(DbContextOptions<Entities> options) : base(options)
         {
 
@@ -29,6 +31,8 @@ namespace Chef.Data
             modelBuilder.Entity<Food>().HasKey(f => f.Id);
 
             modelBuilder.Entity<Category>().HasKey(c => c.Id);
+
+            modelBuilder.Entity<Order>().OwnsMany(o => o.OrderItems);
 
             base.OnModelCreating(modelBuilder);
         }

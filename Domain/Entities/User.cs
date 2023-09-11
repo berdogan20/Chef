@@ -7,7 +7,7 @@ namespace Chef.Domain.Entities
         public string Password { get; set; }
         public string Address { get; set; }
 
-        public IList<Order> Orders = new List<Order>();
+        public IList<OrderItem> Basket = new List<OrderItem>();
 
         public User()
         {
@@ -25,29 +25,14 @@ namespace Chef.Domain.Entities
             Address = address;
         }
 
-
-        public object? MakeOrder(string orderId,
-            Guid foodId,
-            string orderOwner,
-            byte amount,
-            string address,
-            string status)
+        public void AddToBasket(Guid orderItemId, Guid foodItemId, byte amount, int price)
         {
             var user = this;
 
-           
-            user.Orders.Add(
-                new Order(
-                     orderId,
-                     foodId,
-                     orderOwner,
-                     amount,
-                     address,
-                     status)
-                );
+            user.Basket.Add( new OrderItem(orderItemId, foodItemId, amount, price));
 
-            return null;
         }
+
     }
 }
 

@@ -51,6 +51,7 @@ import { CreateFoodComponent } from './create-food/create-food.component';
       { path: 'user-profile', component: UserProfileComponent, canActivate: [AuthGuard] },
       { path: 'admin-profile', component: AdminProfileComponent },
       { path: 'orders', component: OrdersComponent },
+      { path: 'basket', component: BasketComponent },
       { path: 'create-food', component: CreateFoodComponent },
       { path: 'admin', component: AdminProfileComponent },
       { path: 'sign-in', component: SignInComponent },
@@ -63,4 +64,3 @@ import { CreateFoodComponent } from './create-food/create-food.component';
   bootstrap: [AppComponent]
 })
 export class AppModule { }
-

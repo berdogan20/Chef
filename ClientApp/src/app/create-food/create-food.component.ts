@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { FoodService, OrderService } from '../api/services';
+import { CategoryService, FoodService, OrderService } from '../api/services';
 import { ActivatedRoute, Router } from '@angular/router';
-import { FoodRm, OrderDto, FoodDto } from '../api/models';
+import { FoodRm, OrderDto, FoodDto, CategoryRm } from '../api/models';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 import { AuthService } from '../auth/auth.service';
 import { v4 as uuidv4 } from 'uuid';
@@ -16,6 +16,7 @@ export class CreateFoodComponent {
 
   foodId: string = 'not loaded';
   food: FoodRm = {};
+  categories: CategoryRm[] = [];
 
   form!: FormGroup;
 
@@ -24,25 +25,29 @@ export class CreateFoodComponent {
     private authService: AuthService,
     private foodService: FoodService,
     private orderService: OrderService,
-    private formBuilder: FormBuilder,) { }
+    private formBuilder: FormBuilder,
+    private categoryService: CategoryService) { }
 
 
   ngOnInit(): void {
 
     this.form = this.formBuilder.group({
       imageUrl: ['', Validators.required],
+      categoryId: ['', Validators.required],
       name: ['', Validators.required],
       description: ['', Validators.required],
       price: ['', Validators.required],
       preperationTime: ['', Validators.required]
     });
 
+    this.getCategories();
   }
 
   createFood() {
     console.log(this.form);
 
     let dto: FoodDto = {
+      categoryId: this.form.value.categoryId,
       description: this.form.value.description,
       id: uuidv4(),
       imageUrl: this.form.value.imageUrl,
@@ -51,6 +56,7 @@ export class CreateFoodComponent {
       price: Number(this.form.value.price)
     }
 
+    console.log(dto);
 
     this.foodService.createFood({ body: dto })
       .subscribe(_ => {
@@ -83,5 +89,11 @@ export class CreateFoodComponent {
     console.log("Response Error. Status: ", err.status)
     console.log("Response Error. Status Text: ", err.statusText)
     console.log(err)
+  }
+
+  getCategories() {
+    this.categoryService.getAllCategoriesCategory()
+      .subscribe(rmList => this.categories = rmList,
+        err => this.handleError(err));
   }
 }

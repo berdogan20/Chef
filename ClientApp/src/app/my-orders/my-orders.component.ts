@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { OrderRm, FoodRm} from '../api/models';
+import { OrderRm, FoodRm } from '../api/models';
 import { FoodService } from '../api/services';
 import { OrderService } from './../api/services/order.service';
 import { AuthService } from './../auth/auth.service';
@@ -21,28 +21,28 @@ export class MyOrdersComponent {
 
 
   ngOnInit(): void {
-    console.log(this.authService.currentUser?.email);
+    //console.log(this.authService.currentUser?.email);
 
-    this.orderService.listOrder({ email: this.authService.currentUser?.email ?? '' })
-      .subscribe(
-        (orders) => {
-          this.orders = orders;
+    //this.orderService.listOrder({ email: this.authService.currentUser?.email ?? '' })
+    //  .subscribe(
+    //    (orders) => {
+    //      this.orders = orders;
 
-          // Fetch food data for each order
-          const foodObservables = orders.map((order) =>
-            this.foodService.findFood({ id: order.foodId! })
-          );
+    //      // Fetch food data for each order
+    //      const foodObservables = orders.map((order) =>
+    //        this.foodService.findFood({ id: order.foodId! })
+    //      );
 
-          forkJoin(foodObservables).subscribe(
-            (foods) => {
-              // All food requests have completed here
-              this.foods = foods;
-            },
-            (err) => this.handleError(err)
-          );
-        },
-        (err) => this.handleError(err)
-      );
+    //      forkJoin(foodObservables).subscribe(
+    //        (foods) => {
+    //          // All food requests have completed here
+    //          this.foods = foods;
+    //        },
+    //        (err) => this.handleError(err)
+    //      );
+    //    },
+    //    (err) => this.handleError(err)
+    //  );
   }
 
 

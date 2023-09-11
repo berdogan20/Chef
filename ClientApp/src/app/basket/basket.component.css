@@ -1,0 +1,16 @@
+button {
+  background-color: #b1b2ff;
+  color: white;
+  border: 1px solid #b1b2ff;
+  border-radius: 2rem;
+  width: 8rem;
+  height: 2.5rem;
+  float: right;
+  margin: 0.1rem 1rem;
+}
+
+button:hover {
+    color: #b1b2ff;
+    background-color: white;
+    border: 1px solid #b1b2ff;
+  }

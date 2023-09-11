@@ -85,6 +85,56 @@ namespace Chef.Controllers
             return Ok(rm);
         }
 
+        [HttpPost("{email}/basket")]
+        [ProducesResponseType(201)]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(404)]
+        [ProducesResponseType(500)]
+        public IActionResult AddToBasket(string email, OrderItemDto dto)
+        {
+            // Check if the user exists
+            var user = _entities.Users.FirstOrDefault(u => u.Email == email);
+
+            if (user == null)
+            {
+                return NotFound("User not found.");
+            }
+
+            // Create a new OrderItem and add it to the user's basket
+            var orderItem = new OrderItem(
+                Guid.NewGuid(), // You can generate a unique ID for the new order item
+                dto.FoodItemId,
+                dto.Amount,
+                dto.Price
+            );
+
+            user.Basket.Add(orderItem);
+
+            _entities.SaveChanges(); // Save changes to the user's basket
+
+            return CreatedAtAction(nameof(Find), new { email }, dto); // Return a 201 Created response
+        }
+
+
+        [HttpGet("{email}/basket")]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(404)]
+        public ActionResult<IEnumerable<OrderItem>> GetUserBasket(string email)
+        {
+            // Check if the user exists
+            var user = _entities.Users.FirstOrDefault(u => u.Email == email);
+
+            if (user == null)
+            {
+                return NotFound("User not found.");
+            }
+
+            // Return the user's basket as an IEnumerable<OrderItem>
+            var basketItems = user.Basket;
+
+            return Ok(basketItems);
+        }
+
 
     }
 }
