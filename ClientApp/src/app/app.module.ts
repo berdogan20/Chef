@@ -20,6 +20,8 @@ import { MyOrdersComponent } from './my-orders/my-orders.component';
 import { OrdersComponent } from './orders/orders.component';
 import { EditFoodComponent } from './edit-food/edit-food.component';
 import { CreateFoodComponent } from './create-food/create-food.component';
+import { OrderDetailComponent } from './order-detail/order-detail.component';
+import { OrderDetailAdminComponent } from './order-detail-admin/order-detail-admin.component';
 
 
 @NgModule({
@@ -36,7 +38,9 @@ import { CreateFoodComponent } from './create-food/create-food.component';
     MyOrdersComponent,
     OrdersComponent,
     EditFoodComponent,
-    CreateFoodComponent
+    CreateFoodComponent,
+    OrderDetailComponent,
+    OrderDetailAdminComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -56,6 +60,8 @@ import { CreateFoodComponent } from './create-food/create-food.component';
       { path: 'admin', component: AdminProfileComponent },
       { path: 'sign-in', component: SignInComponent },
       { path: 'register', component: RegisterComponent },
+      { path: 'order-detail/:orderId', component: OrderDetailComponent },
+      { path: 'order-detail-admin/:orderId', component: OrderDetailAdminComponent },
       { path: 'my-orders', component: MyOrdersComponent, canActivate: [AuthGuard] }
 
     ])

@@ -76,14 +76,21 @@
   color: white;
 }
 
-  #logout-button:hover {
+#logout-button:hover {
     color: #86bdf6;
     background-color: white;
     border: 1px solid #86bdf6;
-  }
+}
 
-#shopping-button:hover {
-  color: #86bdf6;
+#shopping-button {
+  color: #b1b2ff;
+  border: 1px solid #b1b2ff
+}
+
+#shopping-button:hover, i:hover{
+    color: white;
+    background-color: #b1b2ff;
+    border: 1px solid #b1b2ff;
 }
 
 

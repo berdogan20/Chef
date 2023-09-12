@@ -29,7 +29,7 @@
             <!-- after sign in to admin -->
 
             <ul *ngIf="isAdmin()">
-                <li><a id="shopping-button" routerLinkActive="active" routerLink="orders"><i class="fa-solid fa-cart-shopping"></i></a></li>
+                <li><a id="shopping-button" routerLinkActive="active" routerLink="orders">Orders  <i class="fa-solid fa-folder-tree"></i></a></li>
                 <li><a id="logout-button" (click)="logout()">Log out</a></li>
             </ul>
 

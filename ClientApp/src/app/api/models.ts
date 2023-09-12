@@ -9,5 +9,6 @@ export { OrderItem } from './models/order-item';
 export { OrderItemDto } from './models/order-item-dto';
 export { OrderRm } from './models/order-rm';
 export { ProblemDetails } from './models/problem-details';
+export { StatusRm } from './models/status-rm';
 export { UserDto } from './models/user-dto';
 export { UserRm } from './models/user-rm';

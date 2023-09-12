@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { OrderRm, FoodRm, OrderDto } from '../api/models';
 import { FoodService } from '../api/services';
+import { Router } from '@angular/router';
 import { OrderService } from './../api/services/order.service';
 import { AuthService } from './../auth/auth.service';
 import { forkJoin } from 'rxjs';
@@ -14,41 +15,27 @@ import { forkJoin } from 'rxjs';
 export class OrdersComponent {
 
   orders: OrderRm[] = [];
-  foods: FoodRm[] = [];
+  statuses: string[] = ["", "Your order has been received",
+    "Preparing", "On the Way", "Delivered"];
 
-  constructor(private orderService: OrderService,
-    private foodService: FoodService,
-    private authService: AuthService) { }
 
-  //ngOnInit(): void {
+  constructor(
+    private router: Router,
+    private authService: AuthService,
+    private orderService: OrderService) { }
 
-  //  this.orderService.searchOrder({ })
-  //    .subscribe(
-  //      (orders) => {
-  //        this.orders = orders;
 
-  //        // Fetch food data for each order
-  //        const foodObservables = orders.map((order) =>
-  //          this.foodService.findFood({ id: order.foodId! })
-  //        );
+  ngOnInit(): void {
+    this.searchOrders();
+  }
 
-  //        forkJoin(foodObservables).subscribe(
-  //          (foods) => {
-  //            // All food requests have completed here
-  //            this.foods = foods;
-  //          },
-  //          (err) => this.handleError(err)
-  //        );
-  //      },
-  //      (err) => this.handleError(err)
-  //    );
-  //}
 
-  //search() {
-  //  this.orderService.searchOrder({})
-  //    .subscribe(rmList => this.orders = rmList,
-  //      this.handleError)
-  //}
+  searchOrders() {
+    this.orderService.searchOrder()
+      .subscribe(o => this.orders = o,
+        err => this.handleError(err));
+  }
+
 
 
 
@@ -58,5 +45,6 @@ export class OrdersComponent {
     console.log(err);
   }
 
+  
 
 }

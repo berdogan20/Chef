@@ -121,6 +121,48 @@ namespace Chef.Controllers
         [ProducesResponseType(404)]
         public ActionResult<IEnumerable<OrderItem>> GetUserBasket(string email)
         {
+            var user = _entities.Users.FirstOrDefault(u => u.Email == email);
+
+            if (user == null)
+            {
+                return NotFound("User not found.");
+            }
+
+            var basketItems = user.Basket;
+
+            return Ok(basketItems);
+        }
+
+
+
+        [HttpDelete("{email}/basket")]
+        [ProducesResponseType(204)]
+        [ProducesResponseType(404)]
+        [ProducesResponseType(500)]
+        public IActionResult ClearUserBasket(string email)
+        {
+            /* to clear user basket*/
+
+            var user = _entities.Users.FirstOrDefault(u => u.Email == email);
+
+            if (user == null)
+            {
+                return NotFound("User not found.");
+            }
+
+            user.Basket.Clear();
+
+            _entities.SaveChanges(); 
+
+            return NoContent(); 
+        }
+
+        [HttpDelete("{email}/basket/{orderItemId}")]
+        [ProducesResponseType(204)]
+        [ProducesResponseType(404)]
+        [ProducesResponseType(500)]
+        public IActionResult RemoveFromBasket(string email, Guid orderItemId)
+        {
             // Check if the user exists
             var user = _entities.Users.FirstOrDefault(u => u.Email == email);
 
@@ -129,13 +171,26 @@ namespace Chef.Controllers
                 return NotFound("User not found.");
             }
 
-            // Return the user's basket as an IEnumerable<OrderItem>
-            var basketItems = user.Basket;
+            // Find the food item in the user's basket by its ID
+            var itemToRemove = user.Basket.FirstOrDefault(item => item.OrderItemId == orderItemId);
 
-            return Ok(basketItems);
+            if (itemToRemove == null)
+            {
+                return NotFound("Food item not found in the user's basket.");
+            }
+
+            // Remove the item from the basket
+            user.Basket.Remove(itemToRemove);
+
+            _entities.SaveChanges();
+
+            return NoContent();
         }
 
 
-    }
-}
 
+    }
+
+
+
+}

@@ -16,6 +16,8 @@ namespace Chef.Data
 
         public DbSet<OrderItem> OrderItems => Set<OrderItem>();
 
+        public DbSet<Status> Statuses => Set<Status>();
+
         public Entities(DbContextOptions<Entities> options) : base(options)
         {
 

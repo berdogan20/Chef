@@ -11,23 +11,30 @@ import { StrictHttpResponse } from '../strict-http-response';
 
 import { buyOrder } from '../fn/order/buy-order';
 import { BuyOrder$Params } from '../fn/order/buy-order';
-import { findByIdOrder } from '../fn/order/find-by-id-order';
-import { FindByIdOrder$Params } from '../fn/order/find-by-id-order';
-import { findByIdOrder$Plain } from '../fn/order/find-by-id-order-plain';
-import { FindByIdOrder$Plain$Params } from '../fn/order/find-by-id-order-plain';
 import { findOrder } from '../fn/order/find-order';
 import { FindOrder$Params } from '../fn/order/find-order';
 import { findOrder$Plain } from '../fn/order/find-order-plain';
 import { FindOrder$Plain$Params } from '../fn/order/find-order-plain';
+import { getOrderByOrderIdOrder } from '../fn/order/get-order-by-order-id-order';
+import { GetOrderByOrderIdOrder$Params } from '../fn/order/get-order-by-order-id-order';
+import { getOrderByOrderIdOrder$Plain } from '../fn/order/get-order-by-order-id-order-plain';
+import { GetOrderByOrderIdOrder$Plain$Params } from '../fn/order/get-order-by-order-id-order-plain';
+import { getOrderItemsOrder } from '../fn/order/get-order-items-order';
+import { GetOrderItemsOrder$Params } from '../fn/order/get-order-items-order';
+import { getOrderItemsOrder$Plain } from '../fn/order/get-order-items-order-plain';
+import { GetOrderItemsOrder$Plain$Params } from '../fn/order/get-order-items-order-plain';
 import { listOrder } from '../fn/order/list-order';
 import { ListOrder$Params } from '../fn/order/list-order';
 import { listOrder$Plain } from '../fn/order/list-order-plain';
 import { ListOrder$Plain$Params } from '../fn/order/list-order-plain';
+import { OrderItem } from '../models/order-item';
 import { OrderRm } from '../models/order-rm';
 import { searchOrder } from '../fn/order/search-order';
 import { SearchOrder$Params } from '../fn/order/search-order';
 import { searchOrder$Plain } from '../fn/order/search-order-plain';
 import { SearchOrder$Plain$Params } from '../fn/order/search-order-plain';
+import { updateOrderStatusOrder } from '../fn/order/update-order-status-order';
+import { UpdateOrderStatusOrder$Params } from '../fn/order/update-order-status-order';
 
 @Injectable({ providedIn: 'root' })
 export class OrderService extends BaseService {
@@ -201,50 +208,122 @@ export class OrderService extends BaseService {
     );
   }
 
-  /** Path part for operation `findByIdOrder()` */
-  static readonly FindByIdOrderPath = '/Order/{id}';
+  /** Path part for operation `getOrderItemsOrder()` */
+  static readonly GetOrderItemsOrderPath = '/Order/{orderId}/items';
 
   /**
    * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `findByIdOrder$Plain()` instead.
+   * To access only the response body, use `getOrderItemsOrder$Plain()` instead.
    *
    * This method doesn't expect any request body.
    */
-  findByIdOrder$Plain$Response(params: FindByIdOrder$Plain$Params, context?: HttpContext): Observable<StrictHttpResponse<OrderRm>> {
-    return findByIdOrder$Plain(this.http, this.rootUrl, params, context);
+  getOrderItemsOrder$Plain$Response(params: GetOrderItemsOrder$Plain$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<OrderItem>>> {
+    return getOrderItemsOrder$Plain(this.http, this.rootUrl, params, context);
   }
 
   /**
    * This method provides access only to the response body.
-   * To access the full response (for headers, for example), `findByIdOrder$Plain$Response()` instead.
+   * To access the full response (for headers, for example), `getOrderItemsOrder$Plain$Response()` instead.
    *
    * This method doesn't expect any request body.
    */
-  findByIdOrder$Plain(params: FindByIdOrder$Plain$Params, context?: HttpContext): Observable<OrderRm> {
-    return this.findByIdOrder$Plain$Response(params, context).pipe(
+  getOrderItemsOrder$Plain(params: GetOrderItemsOrder$Plain$Params, context?: HttpContext): Observable<Array<OrderItem>> {
+    return this.getOrderItemsOrder$Plain$Response(params, context).pipe(
+      map((r: StrictHttpResponse<Array<OrderItem>>): Array<OrderItem> => r.body)
+    );
+  }
+
+  /**
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `getOrderItemsOrder()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  getOrderItemsOrder$Response(params: GetOrderItemsOrder$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<OrderItem>>> {
+    return getOrderItemsOrder(this.http, this.rootUrl, params, context);
+  }
+
+  /**
+   * This method provides access only to the response body.
+   * To access the full response (for headers, for example), `getOrderItemsOrder$Response()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  getOrderItemsOrder(params: GetOrderItemsOrder$Params, context?: HttpContext): Observable<Array<OrderItem>> {
+    return this.getOrderItemsOrder$Response(params, context).pipe(
+      map((r: StrictHttpResponse<Array<OrderItem>>): Array<OrderItem> => r.body)
+    );
+  }
+
+  /** Path part for operation `getOrderByOrderIdOrder()` */
+  static readonly GetOrderByOrderIdOrderPath = '/Order/byOrderId/{orderId}';
+
+  /**
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `getOrderByOrderIdOrder$Plain()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  getOrderByOrderIdOrder$Plain$Response(params: GetOrderByOrderIdOrder$Plain$Params, context?: HttpContext): Observable<StrictHttpResponse<OrderRm>> {
+    return getOrderByOrderIdOrder$Plain(this.http, this.rootUrl, params, context);
+  }
+
+  /**
+   * This method provides access only to the response body.
+   * To access the full response (for headers, for example), `getOrderByOrderIdOrder$Plain$Response()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  getOrderByOrderIdOrder$Plain(params: GetOrderByOrderIdOrder$Plain$Params, context?: HttpContext): Observable<OrderRm> {
+    return this.getOrderByOrderIdOrder$Plain$Response(params, context).pipe(
       map((r: StrictHttpResponse<OrderRm>): OrderRm => r.body)
     );
   }
 
   /**
    * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `findByIdOrder()` instead.
+   * To access only the response body, use `getOrderByOrderIdOrder()` instead.
    *
    * This method doesn't expect any request body.
    */
-  findByIdOrder$Response(params: FindByIdOrder$Params, context?: HttpContext): Observable<StrictHttpResponse<OrderRm>> {
-    return findByIdOrder(this.http, this.rootUrl, params, context);
+  getOrderByOrderIdOrder$Response(params: GetOrderByOrderIdOrder$Params, context?: HttpContext): Observable<StrictHttpResponse<OrderRm>> {
+    return getOrderByOrderIdOrder(this.http, this.rootUrl, params, context);
   }
 
   /**
    * This method provides access only to the response body.
-   * To access the full response (for headers, for example), `findByIdOrder$Response()` instead.
+   * To access the full response (for headers, for example), `getOrderByOrderIdOrder$Response()` instead.
    *
    * This method doesn't expect any request body.
    */
-  findByIdOrder(params: FindByIdOrder$Params, context?: HttpContext): Observable<OrderRm> {
-    return this.findByIdOrder$Response(params, context).pipe(
+  getOrderByOrderIdOrder(params: GetOrderByOrderIdOrder$Params, context?: HttpContext): Observable<OrderRm> {
+    return this.getOrderByOrderIdOrder$Response(params, context).pipe(
       map((r: StrictHttpResponse<OrderRm>): OrderRm => r.body)
+    );
+  }
+
+  /** Path part for operation `updateOrderStatusOrder()` */
+  static readonly UpdateOrderStatusOrderPath = '/Order/{orderId}/status';
+
+  /**
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `updateOrderStatusOrder()` instead.
+   *
+   * This method sends `application/*+json` and handles request body of type `application/*+json`.
+   */
+  updateOrderStatusOrder$Response(params: UpdateOrderStatusOrder$Params, context?: HttpContext): Observable<StrictHttpResponse<void>> {
+    return updateOrderStatusOrder(this.http, this.rootUrl, params, context);
+  }
+
+  /**
+   * This method provides access only to the response body.
+   * To access the full response (for headers, for example), `updateOrderStatusOrder$Response()` instead.
+   *
+   * This method sends `application/*+json` and handles request body of type `application/*+json`.
+   */
+  updateOrderStatusOrder(params: UpdateOrderStatusOrder$Params, context?: HttpContext): Observable<void> {
+    return this.updateOrderStatusOrder$Response(params, context).pipe(
+      map((r: StrictHttpResponse<void>): void => r.body)
     );
   }
 

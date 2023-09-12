@@ -1,5 +1,6 @@
 ﻿using System;
 using Chef.Domain.Entities;
+using Chef.ReadModels;
 
 namespace Chef.Dtos
 {
@@ -9,6 +10,8 @@ namespace Chef.Dtos
         DateTime OrderDate,
         string OrderOwner,
         string Address,
-        string Status);
+        byte StatusId,
+        int TotalPayment,
+        List<OrderItem> OrderItems);
 }
 

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { OrderRm, FoodRm, OrderItem, UserRm, OrderDto } from '../api/models';
-import { CategoryService, FoodService, UserService } from '../api/services';
+import { CategoryService, FoodService, StatusService, UserService } from '../api/services';
 import { ActivatedRoute, Router } from '@angular/router';
 import { OrderService } from './../api/services/order.service';
 import { AuthService } from './../auth/auth.service';
@@ -25,7 +25,8 @@ export class BasketComponent {
     private authService: AuthService,
     private foodService: FoodService,
     private orderService: OrderService,
-    private userService: UserService) { }
+    private userService: UserService,
+    private statusService: StatusService) { }
 
 
   ngOnInit(): void {
@@ -34,7 +35,6 @@ export class BasketComponent {
       .subscribe(
         (basket) => {
           this.basket = basket;
-          console.log(this.basket);
           // Fetch food data for each order
           const foodObservables = basket.map((orderItem) =>
             this.foodService.findFood({ id: orderItem.foodItemId! })
@@ -49,7 +49,9 @@ export class BasketComponent {
           );
         },
         (err) => this.handleError(err)
-      );
+    );
+
+    this.currentUser = this.authService.currentUser!;
   }
 
 
@@ -68,15 +70,51 @@ export class BasketComponent {
       orderDate: new Date().toISOString(),
       orderId: uuidv4(),
       orderOwner: this.authService.currentUser?.email,
-      status: "Your order has been received."
+      statusId: 1,
+      totalPayment: this.getTotalPayment(),
+      orderItems: this.basket
+    }
+
+    if (dto.orderItems?.length == 0) {
+      return;
     }
 
     console.log(dto);
 
     this.orderService.buyOrder({ body: dto })
       .subscribe(_ => {
+        this.userService.clearUserBasketUser({ email: this.authService.currentUser?.email! })
+          .subscribe(_ => { }, err => this.handleError(err));
         this.router.navigate(['my-orders']);
       },
         err => this.handleError(err));
   }
+
+  getTotalPayment(): number{
+    let total = 0;
+    for (let orderItem of this.basket) {
+      total += orderItem.amount! * orderItem.price!;
+    }
+    return total;
+  }
+
+  remove(index: number) {
+
+    let itemToRemove = this.basket[index];
+
+    if (this.currentUser.email) {
+      if (itemToRemove.orderItemId) {
+        this.userService.removeFromBasketUser({ email: this.currentUser.email, orderItemId: itemToRemove.orderItemId })
+          .subscribe(
+            _ => { },
+            err => this.handleError(err)
+          );
+      }
+    }
+
+    this.basket.splice(index, 1);
+    this.foods.splice(index, 1);
+  }
+
+
 }

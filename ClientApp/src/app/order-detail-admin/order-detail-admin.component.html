@@ -1,0 +1,48 @@
+<div class="container">
+
+    <div class="card mb-3" style="max-width: 100%;">
+        <div *ngFor="let orderItem of orderItems; let i = index">
+            <div class="row g-0">
+
+                <div class="col-md-4">
+                    <img [src]="foods[i]?.imageUrl" class="img-fluid rounded-start" [alt]="foods[i]?.name">
+                </div>
+
+                <div class="col-md-8">
+                    <div class="card-body">
+                        <h5 class="card-title"> {{ foods[i]?.name }} </h5>
+                        <p class="card-text"> Price: $ {{ foods[i]?.price }} </p>
+                        <p class="card-text"> Amount:  {{ orderItem.amount }} </p>
+                    </div>
+                </div>
+            </div>
+            <br />
+        </div>
+        <hr />
+        <div class="container">
+            <!--Admin can change order status-->
+            <div class="col-md-6">
+                <select class="form-select" aria-label="Order Status" [(ngModel)]="orderStatus">
+                    <option disabled selected>Open this select menu</option>
+                    <option value="1">Your order has been received</option>
+                    <option value="2">Preparing</option>
+                    <option value="3">On the Way</option>
+                    <option value="4">Delivered</option>
+                </select>
+            </div>
+            <br />
+            <button type="submit" class="btn"
+                    (click)="changeStatus()">
+                Save
+            </button>
+
+            <h5> <b>Address</b> : {{ order.orderDate | date:'medium' }}</h5>
+            <h5> <b>Status</b> : {{ statuses[order.statusId!]}}</h5>
+            <h5> <b>Address</b> : {{ order.address }}</h5>
+            <h3>
+                <b>Total Payment</b>: {{ order.totalPayment }}
+            </h3>
+        </div>
+
+    </div>
+</div>

@@ -16,15 +16,6 @@ namespace Chef.Controllers
         {
             _entities = entities ?? throw new ArgumentNullException(nameof(entities));
         }
-
-        [HttpGet]
-        public IActionResult GetOrderItems()
-        {
-            var orderItems = _entities.OrderItems.ToList(); // Assuming OrderItems is your DbSet in the DbContext
-            return Ok(orderItems);
-        }
-
-
     }
 
 

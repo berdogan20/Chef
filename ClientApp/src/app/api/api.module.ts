@@ -7,7 +7,7 @@ import { ApiConfiguration, ApiConfigurationParams } from './api-configuration';
 import { CategoryService } from './services/category.service';
 import { FoodService } from './services/food.service';
 import { OrderService } from './services/order.service';
-import { OrderItemService } from './services/order-item.service';
+import { StatusService } from './services/status.service';
 import { UserService } from './services/user.service';
 
 /**
@@ -21,7 +21,7 @@ import { UserService } from './services/user.service';
     CategoryService,
     FoodService,
     OrderService,
-    OrderItemService,
+    StatusService,
     UserService,
     ApiConfiguration
   ],

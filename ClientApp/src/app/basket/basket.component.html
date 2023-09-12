@@ -11,8 +11,13 @@
                     <p class="card-text">{{ foods[i]?.description }}</p>
                     <p class="card-text"> Amount: {{ orderItem.amount }}</p>
                 </div>
+                <br />
+                <br />
+                <br />
+                <button class="remove-button" type="button" (click)="remove(i)"> Remove </button>
             </div>
         </div>
     </div>
+    
     <button type="button" (click)="order()"> Order </button>
 </div>

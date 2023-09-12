@@ -8,6 +8,9 @@ button {
   float: right;
   margin: 0.1rem 1rem;
 }
+.remove-button {
+  background-color: #86bdf6;
+}
 
 button:hover {
     color: #b1b2ff;

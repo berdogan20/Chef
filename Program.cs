@@ -169,6 +169,16 @@ Category[] categoriesToSeed = new Category[]
 };
 entities.Categories.AddRange(categoriesToSeed);
 
+Status[] statusesToSeed = new Status[]
+{
+    new Status(1, "Your order has been received."),
+    new Status(2, "Preparing"),
+    new Status(3, "On the Way"),
+    new Status(4, "Delivered")
+};
+entities.Statuses.AddRange(statusesToSeed);
+
+
 entities.SaveChanges();
 
 
