@@ -69,8 +69,8 @@
                             <p class="card-text"> {{ food.description }} </p>
 
 
-                            <!--User can look at the food in detail-->
-                            <div class="button-row" *ngIf="isUser() && !isAdmin()">
+                            <!--Everybody can look at the food in detail-->
+                            <div class="button-row" *ngIf="!isAdmin()">
                                 <button [routerLink]="['/buy-food', food.id]" class="food-item-button"
                                         id="basket-button">
                                     Look

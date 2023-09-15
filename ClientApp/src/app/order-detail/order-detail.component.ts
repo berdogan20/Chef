@@ -18,6 +18,9 @@ export class OrderDetailComponent implements OnInit, OnDestroy {
   foods: FoodRm[] = [];
   private subscriptions: Subscription[] = [];
 
+  statuses: string[] = ["", "Your order has been received",
+    "Preparing", "On the Way", "Delivered"];
+
   constructor(
     private route: ActivatedRoute,
     private router: Router,

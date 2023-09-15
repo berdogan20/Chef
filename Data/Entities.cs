@@ -35,8 +35,7 @@ namespace Chef.Data
             modelBuilder.Entity<Category>().HasKey(c => c.Id);
 
             modelBuilder.Entity<Order>().OwnsMany(o => o.OrderItems);
-
-            base.OnModelCreating(modelBuilder);
+            //base.OnModelCreating(modelBuilder);
         }
 
     }

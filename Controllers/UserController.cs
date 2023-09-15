@@ -7,6 +7,7 @@ using Chef.Domain.Entities;
 using Chef.Dtos;
 using Chef.ReadModels;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -31,7 +32,8 @@ namespace Chef.Controllers
         [ProducesResponseType(typeof(IEnumerable<UserRm>), 200)]
         public IEnumerable<UserRm> Search()
         {
-            var UserRmList = _entities.Users.Select(user => new UserRm(
+            var UserRmList = _entities.Users
+                .Select(user => new UserRm(
                 user.Email,
                 user.Password,
                 user.Address
@@ -47,7 +49,8 @@ namespace Chef.Controllers
         public IActionResult Register(UserDto dto)
         {
             // Check if a user with the same email already exists
-            var existingUser = _entities.Users.FirstOrDefault(u => u.Email == dto.Email);
+            var existingUser = _entities.Users
+                .FirstOrDefault(u => u.Email == dto.Email);
             if (existingUser != null)
             {
                 return Conflict("User with this email already exists.");
@@ -69,7 +72,8 @@ namespace Chef.Controllers
         [HttpGet("{email}")]
         public ActionResult<UserRm> Find(string email)
         {
-            var user = _entities.Users.FirstOrDefault(u => u.Email == email);
+            var user = _entities.Users
+                .FirstOrDefault(u => u.Email == email);
 
             if (user == null)
             {
@@ -93,7 +97,8 @@ namespace Chef.Controllers
         public IActionResult AddToBasket(string email, OrderItemDto dto)
         {
             // Check if the user exists
-            var user = _entities.Users.FirstOrDefault(u => u.Email == email);
+            var user = _entities.Users
+                .FirstOrDefault(u => u.Email == email);
 
             if (user == null)
             {
@@ -121,7 +126,8 @@ namespace Chef.Controllers
         [ProducesResponseType(404)]
         public ActionResult<IEnumerable<OrderItem>> GetUserBasket(string email)
         {
-            var user = _entities.Users.FirstOrDefault(u => u.Email == email);
+            var user = _entities.Users
+                .FirstOrDefault(u => u.Email == email);
 
             if (user == null)
             {
@@ -143,7 +149,8 @@ namespace Chef.Controllers
         {
             /* to clear user basket*/
 
-            var user = _entities.Users.FirstOrDefault(u => u.Email == email);
+            var user = _entities.Users
+                .FirstOrDefault(u => u.Email == email);
 
             if (user == null)
             {
@@ -164,7 +171,8 @@ namespace Chef.Controllers
         public IActionResult RemoveFromBasket(string email, Guid orderItemId)
         {
             // Check if the user exists
-            var user = _entities.Users.FirstOrDefault(u => u.Email == email);
+            var user = _entities.Users
+                .FirstOrDefault(u => u.Email == email);
 
             if (user == null)
             {

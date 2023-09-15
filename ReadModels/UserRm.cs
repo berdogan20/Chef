@@ -1,4 +1,6 @@
 ﻿using System;
+using Chef.Domain.Entities;
+
 namespace Chef.ReadModels
 {
 	public record UserRm(

@@ -1,8 +1,8 @@
 ﻿using System;
 namespace Chef.Domain.Entities
 {
-	public class User
-	{
+    public class User
+    {
         public string Email { get; set; }           // I will use email as user id
         public string Password { get; set; }
         public string Address { get; set; }
@@ -29,10 +29,9 @@ namespace Chef.Domain.Entities
         {
             var user = this;
 
-            user.Basket.Add( new OrderItem(orderItemId, foodItemId, amount, price));
+            user.Basket.Add(new OrderItem(orderItemId, foodItemId, amount, price));
 
         }
 
     }
 }
-

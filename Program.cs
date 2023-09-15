@@ -10,12 +10,13 @@ var builder = WebApplication.CreateBuilder(args);
 
 
 // add db context
-builder.Services.AddDbContext<Entities>(options =>
-options.UseInMemoryDatabase(databaseName: "Books"),
-ServiceLifetime.Singleton);
 //builder.Services.AddDbContext<Entities>(options =>
-//    options.UseInMemoryDatabase(databaseName: "Books"),
-//    ServiceLifetime.Scoped);
+//options.UseInMemoryDatabase(databaseName: "Chef"),
+//ServiceLifetime.Singleton);
+
+// Add db context
+builder.Services.AddDbContext<Entities>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("Chef")));
 
 
 
@@ -38,15 +39,24 @@ builder.Services.AddSwaggerGen(c =>                             // * To set up s
 
 // To inject the entities singleton 
 // to use entities class over all controllers:
-builder.Services.AddSingleton<Entities>();
+//builder.Services.AddSingleton<Entities>();
+
+
+builder.Services.AddScoped<Entities>();
 
 var app = builder.Build();
 
 
 // "seeding data"
 var entities = app.Services.CreateScope().ServiceProvider.GetService<Entities>();
-Food[] foodsToSeed = new Food[]
+
+entities.Database.EnsureCreated();
+
+
+if (!entities.Foods.Any())
 {
+    Food[] foodsToSeed = new Food[]
+    {
     //Pizza : 1
     //Burger: 2
     //Breakfast: 3
@@ -145,10 +155,14 @@ Food[] foodsToSeed = new Food[]
         "Soya filizi, havuç, kırmızı soğan, domates, mix yeşillik, fıstık, avokado, mikro filiz, yuzu soya sos ile.",
       "https://www.sushico.com.tr/site/products/big/1667257901_1.jpg",
       18, 12)
-};
-entities.Foods.AddRange(foodsToSeed);
+    };
+    entities.Foods.AddRange(foodsToSeed);
+    entities.SaveChanges();
+}
 
-User[] usersToSeed = new User[]
+if (!entities.Users.Any())
+{
+    User[] usersToSeed = new User[]
 {
     new User("admin@gmail.com", "admin", "Istanbul Sariyer Chef"),
     new User("aysel@gmail.com", "aysel", "Kirsehir Merkez Kayabasi"),
@@ -156,9 +170,13 @@ User[] usersToSeed = new User[]
     new User("isa@gmail.com", "isa", "Kortulu Koyu"),
     new User("yunus@gmail.com", "yunus", "Istanbul Besiktas")
 };
-entities.Users.AddRange(usersToSeed);
+    entities.Users.AddRange(usersToSeed);
+    entities.SaveChanges();
+}
 
-Category[] categoriesToSeed = new Category[]
+if (!entities.Categories.Any())
+{
+    Category[] categoriesToSeed = new Category[]
 {
     new Category(1, "Pizza"),
     new Category(2, "Burger"),
@@ -167,19 +185,24 @@ Category[] categoriesToSeed = new Category[]
     new Category(5, "Soup"),
     new Category(6, "Salad")
 };
-entities.Categories.AddRange(categoriesToSeed);
+    entities.Categories.AddRange(categoriesToSeed);
+    entities.SaveChanges();
+}
 
-Status[] statusesToSeed = new Status[]
+
+if (!entities.Statuses.Any())
+{
+    Status[] statusesToSeed = new Status[]
 {
     new Status(1, "Your order has been received."),
     new Status(2, "Preparing"),
     new Status(3, "On the Way"),
     new Status(4, "Delivered")
 };
-entities.Statuses.AddRange(statusesToSeed);
+    entities.Statuses.AddRange(statusesToSeed);
+    entities.SaveChanges();
+}
 
-
-entities.SaveChanges();
 
 
 app.UseCors(builder => builder
