@@ -6,13 +6,18 @@ import { filter, map } from 'rxjs/operators';
 import { StrictHttpResponse } from '../../strict-http-response';
 import { RequestBuilder } from '../../request-builder';
 
+import { OrderDto } from '../../models/order-dto';
 
-export interface GetOrderItemsOrderItem$Params {
+export interface ConvertBasketItemsToOrderItemsOrder$Params {
+  email?: string;
+      body?: OrderDto
 }
 
-export function getOrderItemsOrderItem(http: HttpClient, rootUrl: string, params?: GetOrderItemsOrderItem$Params, context?: HttpContext): Observable<StrictHttpResponse<void>> {
-  const rb = new RequestBuilder(rootUrl, getOrderItemsOrderItem.PATH, 'get');
+export function convertBasketItemsToOrderItemsOrder(http: HttpClient, rootUrl: string, params?: ConvertBasketItemsToOrderItemsOrder$Params, context?: HttpContext): Observable<StrictHttpResponse<void>> {
+  const rb = new RequestBuilder(rootUrl, convertBasketItemsToOrderItemsOrder.PATH, 'post');
   if (params) {
+    rb.query('email', params.email, {});
+    rb.body(params.body, 'application/*+json');
   }
 
   return http.request(
@@ -25,4 +30,4 @@ export function getOrderItemsOrderItem(http: HttpClient, rootUrl: string, params
   );
 }
 
-getOrderItemsOrderItem.PATH = '/OrderItem';
+convertBasketItemsToOrderItemsOrder.PATH = '/Order/convert';

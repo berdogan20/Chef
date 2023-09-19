@@ -1,3 +1,4 @@
+export { BasketItemService } from './services/basket-item.service';
 export { CategoryService } from './services/category.service';
 export { FoodService } from './services/food.service';
 export { OrderService } from './services/order.service';

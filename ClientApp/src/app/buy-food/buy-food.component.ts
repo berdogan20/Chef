@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { CategoryService, FoodService, OrderService, UserService } from '../api/services';
+import { BasketItemService, CategoryService, FoodService, OrderService, UserService } from '../api/services';
 import { ActivatedRoute, Router } from '@angular/router';
-import { FoodRm, OrderDto, OrderItem } from '../api/models';
+import { BasketItem, FoodRm, OrderDto, OrderItem } from '../api/models';
 import { FormBuilder, Validators } from '@angular/forms';
 import { AuthService } from '../auth/auth.service';
 import { v4 as uuidv4 } from 'uuid';
@@ -26,7 +26,8 @@ export class BuyFoodComponent {
     private orderService: OrderService,
     private userService: UserService,
     private categoryService: CategoryService,
-    private fb: FormBuilder  ) { }
+    private fb: FormBuilder,
+    private basketItemService: BasketItemService) { }
 
 
   form = this.fb.group({
@@ -74,18 +75,17 @@ export class BuyFoodComponent {
     if (this.form.invalid)
       return;
 
-
-    const orderItem: OrderItem = {
+    const basketItem: BasketItem = {
       amount: this.form.get('number')?.value!,
-      foodItemId: this.food.id,
-      orderItemId: uuidv4().toString(),
+      basketItemId: uuidv4(),
+      email: this.authService.currentUser?.email!,
+      foodId: this.food.id,
       price: this.food.price
     }
 
+    console.log(basketItem);
 
-    console.log(orderItem);
-
-    this.userService.addToBasketUser({ email: this.authService.currentUser?.email!, body: orderItem })
+    this.basketItemService.addBasketItemBasketItem({ body: basketItem})
       .subscribe(_ => {
         this.router.navigate(['/basket']);
       },

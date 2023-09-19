@@ -1,5 +1,6 @@
 ﻿using System;
 using Chef.Domain.Entities;
+using Chef.Dtos;
 using Microsoft.EntityFrameworkCore;
 
 namespace Chef.Data
@@ -18,6 +19,9 @@ namespace Chef.Data
 
         public DbSet<Status> Statuses => Set<Status>();
 
+        public DbSet<BasketItem> BasketItems => Set<BasketItem>();
+
+
         public Entities(DbContextOptions<Entities> options) : base(options)
         {
 
@@ -34,7 +38,10 @@ namespace Chef.Data
 
             modelBuilder.Entity<Category>().HasKey(c => c.Id);
 
-            modelBuilder.Entity<Order>().OwnsMany(o => o.OrderItems);
+            modelBuilder.Entity<OrderItem>().HasKey(o => o.OrderItemId);
+
+            modelBuilder.Entity<BasketItem>().HasKey(b => b.BasketItemId);
+
             //base.OnModelCreating(modelBuilder);
         }
 

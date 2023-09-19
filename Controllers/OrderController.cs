@@ -31,16 +31,13 @@ namespace Chef.Controllers
             /* To list all orders*/
 
             var orderRmList = await _entities.Orders
-                .AsNoTracking()
-                .Include(o => o.OrderItems)
                 .Select(order => new OrderRm(
                     order.OrderId,
                     order.OrderDate,
                     order.OrderOwner,
                     order.Address,
                     order.StatusId,
-                    order.TotalPayment,
-                    order.OrderItems)
+                    order.TotalPayment)
          )
                 .ToListAsync();
 
@@ -57,8 +54,6 @@ namespace Chef.Controllers
             /* To list all orders of a specific user*/
 
             var orders = await _entities.Orders
-                .AsNoTracking()
-                .Include(o => o.OrderItems)
                 .Where(o => o.OrderOwner == email)
                 .Select(o => new OrderRm(
                     o.OrderId,
@@ -66,8 +61,7 @@ namespace Chef.Controllers
                     o.OrderOwner,
                     o.Address,
                     o.StatusId,
-                    o.TotalPayment,
-                    o.OrderItems))
+                    o.TotalPayment))
                 .ToListAsync();
 
             return Ok(orders);
@@ -80,8 +74,6 @@ namespace Chef.Controllers
         public async Task<ActionResult<OrderRm>> Find(string email)
         {
             var order = await _entities.Orders
-                .AsNoTracking()
-                .Include(o => o.OrderItems)
                 .FirstOrDefaultAsync(o => o.OrderOwner == email);
             if (order == null)
             {
@@ -94,8 +86,7 @@ namespace Chef.Controllers
                     order.OrderOwner,
                     order.Address,
                     order.StatusId,
-                    order.TotalPayment,
-                    order.OrderItems);
+                    order.TotalPayment);
 
             return Ok(orderRm);
         }
@@ -114,8 +105,7 @@ namespace Chef.Controllers
                     dto.OrderOwner,
                     dto.Address,
                     dto.StatusId,
-                    dto.TotalPayment,
-                    dto.OrderItems);
+                    dto.TotalPayment);
 
 
             _entities.Orders
@@ -133,7 +123,7 @@ namespace Chef.Controllers
             return CreatedAtAction(nameof(Find), new { id = dto.OrderId });
         }
 
-      
+
 
         [HttpGet("{orderId}/items")]
         [ProducesResponseType(500)]
@@ -141,33 +131,35 @@ namespace Chef.Controllers
         [ProducesResponseType(typeof(IEnumerable<OrderItem>), 200)]
         public async Task<ActionResult<IEnumerable<OrderItem>>> GetOrderItems(string orderId)
         {
-
-            /* To return order items of a specific order*/
-
-            var order = await _entities.Orders
-                .AsNoTracking()
-                .Include(o => o.OrderItems) 
-                .FirstOrDefaultAsync(o => o.OrderId == orderId);
-
-            if (order == null)
+            try
             {
-                return NotFound();
-            }
+                // Retrieve the order items with the specific orderId
+                var orderItems = await _entities.OrderItems
+                    .Where(oi => oi.OrderId == orderId)
+                    .ToListAsync();
 
-            return Ok(order.OrderItems);
+                if (orderItems == null || !orderItems.Any())
+                {
+                    return NotFound(); // No order items found for the given orderId
+                }
+
+                return Ok(orderItems);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal Server Error: {ex.Message}");
+            }
         }
 
         [HttpGet("byOrderId/{orderId}")]
         [ProducesResponseType(500)]
         [ProducesResponseType(400)]
         [ProducesResponseType(typeof(OrderRm), 200)]
-        public async Task<ActionResult<OrderRm>> GetOrderByOrderId(string orderId)
+        public async Task<ActionResult<OrderRm>> GetOrderByOrderId(Guid orderId)
         {
             /* To retrieve an order by orderId */
 
             var order = await _entities.Orders
-                .AsNoTracking()
-                .Include(o => o.OrderItems)
                 .FirstOrDefaultAsync(o => o.OrderId == orderId);
 
             if (order == null)
@@ -181,8 +173,7 @@ namespace Chef.Controllers
                 order.OrderOwner,
                 order.Address,
                 order.StatusId,
-                order.TotalPayment,
-                order.OrderItems);
+                order.TotalPayment);
 
             return Ok(orderRm);
         }
@@ -192,7 +183,7 @@ namespace Chef.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<OrderRm>> UpdateOrderStatus(string orderId, OrderDto dto)
+        public async Task<ActionResult<OrderRm>> UpdateOrderStatus(Guid orderId, OrderDto dto)
         {
             /* To update the statusId of a specific order */
 
@@ -220,11 +211,60 @@ namespace Chef.Controllers
                 order.OrderOwner,
                 order.Address,
                 order.StatusId,
-                order.TotalPayment,
-                order.OrderItems);
+                order.TotalPayment);
 
             return Ok(updatedOrderRm); // Successfully updated
         }
+
+
+        [HttpPost("convert")]
+        [ProducesResponseType(201)]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(500)]
+        public async Task<IActionResult> ConvertBasketItemsToOrderItems(string email, [FromBody] OrderDto orderDto)
+        {
+            try
+            {
+                // Find all basket items with the given email
+                var basketItems = await _entities.BasketItems
+                    .Where(basketItem => basketItem.Email == email)
+                    .ToListAsync();
+
+                if (basketItems == null || !basketItems.Any())
+                {
+                    return BadRequest("No basket items found for the provided email.");
+                }
+
+                // Convert basket items to order items and remove them from the basket
+                foreach (var basketItem in basketItems)
+                {
+                    var orderItem = new OrderItem
+                    {
+                        OrderId = orderDto.OrderId.ToString(),
+                        OrderItemId = Guid.NewGuid(),
+                        FoodItemId = basketItem.FoodId,
+                        Amount = basketItem.Amount,
+                        Price = basketItem.Price
+                    };
+
+                    // Add the order item to the database
+                    _entities.OrderItems.Add(orderItem);
+
+                    // Remove the basket item
+                    _entities.BasketItems.Remove(basketItem);
+                }
+
+                // Save changes to the database
+                await _entities.SaveChangesAsync();
+
+                return CreatedAtAction(nameof(Find), new { email = email });
+            }
+            catch (DbUpdateException ex)
+            {
+                return StatusCode(500, $"Internal Server Error: {ex.Message}");
+            }
+        }
+
 
 
     }

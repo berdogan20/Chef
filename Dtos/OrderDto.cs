@@ -6,12 +6,11 @@ namespace Chef.Dtos
 {
 	public record OrderDto(
 
-        string OrderId,
+        Guid OrderId,
         DateTime OrderDate,
         string OrderOwner,
         string Address,
         byte StatusId,
-        int TotalPayment,
-        List<OrderItem> OrderItems);
+        int TotalPayment);
 }
 

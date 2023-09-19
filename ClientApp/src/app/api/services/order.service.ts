@@ -11,6 +11,8 @@ import { StrictHttpResponse } from '../strict-http-response';
 
 import { buyOrder } from '../fn/order/buy-order';
 import { BuyOrder$Params } from '../fn/order/buy-order';
+import { convertBasketItemsToOrderItemsOrder } from '../fn/order/convert-basket-items-to-order-items-order';
+import { ConvertBasketItemsToOrderItemsOrder$Params } from '../fn/order/convert-basket-items-to-order-items-order';
 import { findOrder } from '../fn/order/find-order';
 import { FindOrder$Params } from '../fn/order/find-order';
 import { findOrder$Plain } from '../fn/order/find-order-plain';
@@ -323,6 +325,31 @@ export class OrderService extends BaseService {
    */
   updateOrderStatusOrder(params: UpdateOrderStatusOrder$Params, context?: HttpContext): Observable<void> {
     return this.updateOrderStatusOrder$Response(params, context).pipe(
+      map((r: StrictHttpResponse<void>): void => r.body)
+    );
+  }
+
+  /** Path part for operation `convertBasketItemsToOrderItemsOrder()` */
+  static readonly ConvertBasketItemsToOrderItemsOrderPath = '/Order/convert';
+
+  /**
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `convertBasketItemsToOrderItemsOrder()` instead.
+   *
+   * This method sends `application/*+json` and handles request body of type `application/*+json`.
+   */
+  convertBasketItemsToOrderItemsOrder$Response(params?: ConvertBasketItemsToOrderItemsOrder$Params, context?: HttpContext): Observable<StrictHttpResponse<void>> {
+    return convertBasketItemsToOrderItemsOrder(this.http, this.rootUrl, params, context);
+  }
+
+  /**
+   * This method provides access only to the response body.
+   * To access the full response (for headers, for example), `convertBasketItemsToOrderItemsOrder$Response()` instead.
+   *
+   * This method sends `application/*+json` and handles request body of type `application/*+json`.
+   */
+  convertBasketItemsToOrderItemsOrder(params?: ConvertBasketItemsToOrderItemsOrder$Params, context?: HttpContext): Observable<void> {
+    return this.convertBasketItemsToOrderItemsOrder$Response(params, context).pipe(
       map((r: StrictHttpResponse<void>): void => r.body)
     );
   }

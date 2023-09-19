@@ -117,7 +117,6 @@ export class OrderDetailAdminComponent implements OnInit, OnDestroy {
         address: this.order.address,
         orderDate: this.order.orderDate,
         orderId: this.order.orderId,
-        orderItems: this.order.orderItems,
         orderOwner: this.order.orderOwner,
         statusId: this.orderStatus ?? this.order.statusId,
         totalPayment: this.order.totalPayment

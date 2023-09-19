@@ -4,6 +4,7 @@ import { NgModule, ModuleWithProviders, SkipSelf, Optional } from '@angular/core
 import { HttpClient } from '@angular/common/http';
 import { ApiConfiguration, ApiConfigurationParams } from './api-configuration';
 
+import { BasketItemService } from './services/basket-item.service';
 import { CategoryService } from './services/category.service';
 import { FoodService } from './services/food.service';
 import { OrderService } from './services/order.service';
@@ -18,6 +19,7 @@ import { UserService } from './services/user.service';
   exports: [],
   declarations: [],
   providers: [
+    BasketItemService,
     CategoryService,
     FoodService,
     OrderService,

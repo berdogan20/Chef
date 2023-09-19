@@ -6,17 +6,16 @@ import { filter, map } from 'rxjs/operators';
 import { StrictHttpResponse } from '../../strict-http-response';
 import { RequestBuilder } from '../../request-builder';
 
+import { BasketItemDto } from '../../models/basket-item-dto';
 
-export interface RemoveFromBasketUser$Params {
-  email: string;
-  orderItemId: string;
+export interface AddBasketItemBasketItem$Params {
+      body?: BasketItemDto
 }
 
-export function removeFromBasketUser(http: HttpClient, rootUrl: string, params: RemoveFromBasketUser$Params, context?: HttpContext): Observable<StrictHttpResponse<void>> {
-  const rb = new RequestBuilder(rootUrl, removeFromBasketUser.PATH, 'delete');
+export function addBasketItemBasketItem(http: HttpClient, rootUrl: string, params?: AddBasketItemBasketItem$Params, context?: HttpContext): Observable<StrictHttpResponse<void>> {
+  const rb = new RequestBuilder(rootUrl, addBasketItemBasketItem.PATH, 'post');
   if (params) {
-    rb.path('email', params.email, {});
-    rb.path('orderItemId', params.orderItemId, {});
+    rb.body(params.body, 'application/*+json');
   }
 
   return http.request(
@@ -29,4 +28,4 @@ export function removeFromBasketUser(http: HttpClient, rootUrl: string, params: 
   );
 }
 
-removeFromBasketUser.PATH = '/User/{email}/basket/{orderItemId}';
+addBasketItemBasketItem.PATH = '/BasketItem';

@@ -7,12 +7,12 @@ import { StrictHttpResponse } from '../../strict-http-response';
 import { RequestBuilder } from '../../request-builder';
 
 
-export interface ClearUserBasketUser$Params {
+export interface DeleteBasketItemsByEmailBasketItem$Params {
   email: string;
 }
 
-export function clearUserBasketUser(http: HttpClient, rootUrl: string, params: ClearUserBasketUser$Params, context?: HttpContext): Observable<StrictHttpResponse<void>> {
-  const rb = new RequestBuilder(rootUrl, clearUserBasketUser.PATH, 'delete');
+export function deleteBasketItemsByEmailBasketItem(http: HttpClient, rootUrl: string, params: DeleteBasketItemsByEmailBasketItem$Params, context?: HttpContext): Observable<StrictHttpResponse<void>> {
+  const rb = new RequestBuilder(rootUrl, deleteBasketItemsByEmailBasketItem.PATH, 'delete');
   if (params) {
     rb.path('email', params.email, {});
   }
@@ -27,4 +27,4 @@ export function clearUserBasketUser(http: HttpClient, rootUrl: string, params: C
   );
 }
 
-clearUserBasketUser.PATH = '/User/{email}/basket';
+deleteBasketItemsByEmailBasketItem.PATH = '/BasketItem/{email}';

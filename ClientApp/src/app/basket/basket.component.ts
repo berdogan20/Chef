@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { OrderRm, FoodRm, OrderItem, UserRm, OrderDto } from '../api/models';
-import { CategoryService, FoodService, StatusService, UserService } from '../api/services';
+import { OrderRm, FoodRm, OrderItem, UserRm, OrderDto, BasketItem } from '../api/models';
+import { BasketItemService, CategoryService, FoodService, StatusService, UserService } from '../api/services';
 import { ActivatedRoute, Router } from '@angular/router';
 import { OrderService } from './../api/services/order.service';
 import { AuthService } from './../auth/auth.service';
@@ -15,7 +15,7 @@ import { v4 as uuidv4 } from 'uuid';
 })
 export class BasketComponent {
 
-  basket: OrderItem[] = [];
+  basket: BasketItem[] = [];
   foods: FoodRm[] = [];
   currentUser!: UserRm;
 
@@ -26,18 +26,19 @@ export class BasketComponent {
     private foodService: FoodService,
     private orderService: OrderService,
     private userService: UserService,
-    private statusService: StatusService) { }
+    private statusService: StatusService,
+    private basketItemService: BasketItemService) { }
 
 
   ngOnInit(): void {
 
-    this.userService.getUserBasketUser({ email: this.authService.currentUser?.email! })
+    this.basketItemService.getBasketItemsBasketItem({ email: this.authService.currentUser?.email! })
       .subscribe(
         (basket) => {
           this.basket = basket;
           // Fetch food data for each order
-          const foodObservables = basket.map((orderItem) =>
-            this.foodService.findFood({ id: orderItem.foodItemId! })
+          const foodObservables = basket.map((basketItem) =>
+            this.foodService.findFood({ id: basketItem.foodId! })
           );
 
           forkJoin(foodObservables).subscribe(
@@ -68,32 +69,31 @@ export class BasketComponent {
     let dto: OrderDto = {
       address: this.authService.currentUser?.address,
       orderDate: new Date().toISOString(),
-      orderId: uuidv4(),
+      orderId: uuidv4(), 
       orderOwner: this.authService.currentUser?.email,
       statusId: 1,
-      totalPayment: this.getTotalPayment(),
-      orderItems: this.basket
-    }
-
-    if (dto.orderItems?.length == 0) {
-      return;
+      totalPayment: this.getTotalPayment()
     }
 
     console.log(dto);
 
     this.orderService.buyOrder({ body: dto })
       .subscribe(_ => {
-        this.userService.clearUserBasketUser({ email: this.authService.currentUser?.email! })
-          .subscribe(_ => { }, err => this.handleError(err));
-        this.router.navigate(['my-orders']);
-      },
-        err => this.handleError(err));
+        this.orderService.convertBasketItemsToOrderItemsOrder({ email: this.authService.currentUser?.email!, body: dto })
+          .subscribe(_ => {
+            this.basket = [];
+            this.router.navigate(['/order-detail', dto.orderId])
+          }, err => this.handleError(err));
+      }, err => this.handleError(err));
+
+
+    
   }
 
   getTotalPayment(): number{
     let total = 0;
-    for (let orderItem of this.basket) {
-      total += orderItem.amount! * orderItem.price!;
+    for (let basketItem of this.basket) {
+      total += basketItem.amount! * basketItem.price!;
     }
     return total;
   }
@@ -103,8 +103,8 @@ export class BasketComponent {
     let itemToRemove = this.basket[index];
 
     if (this.currentUser.email) {
-      if (itemToRemove.orderItemId) {
-        this.userService.removeFromBasketUser({ email: this.currentUser.email, orderItemId: itemToRemove.orderItemId })
+      if (itemToRemove.basketItemId) {
+        this.basketItemService.removeBasketItemBasketItem({ email: this.currentUser.email, foodId: itemToRemove.foodId! })
           .subscribe(
             _ => { },
             err => this.handleError(err)

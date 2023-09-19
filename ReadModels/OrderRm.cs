@@ -4,12 +4,11 @@ using Chef.Domain.Entities;
 namespace Chef.ReadModels
 {
     public record OrderRm(
-        string OrderId,
+        Guid OrderId,
         DateTime OrderDate,
         string OrderOwner,
         string Address,
         byte StatusId,
-        int TotalPayment,
-        List<OrderItem> OrderItems);
+        int TotalPayment);
 }
 

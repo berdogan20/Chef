@@ -6,14 +6,14 @@ import { filter, map } from 'rxjs/operators';
 import { StrictHttpResponse } from '../../strict-http-response';
 import { RequestBuilder } from '../../request-builder';
 
-import { OrderItem } from '../../models/order-item';
+import { BasketItem } from '../../models/basket-item';
 
-export interface GetUserBasketUser$Plain$Params {
+export interface GetBasketItemsBasketItem$Plain$Params {
   email: string;
 }
 
-export function getUserBasketUser$Plain(http: HttpClient, rootUrl: string, params: GetUserBasketUser$Plain$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<OrderItem>>> {
-  const rb = new RequestBuilder(rootUrl, getUserBasketUser$Plain.PATH, 'get');
+export function getBasketItemsBasketItem$Plain(http: HttpClient, rootUrl: string, params: GetBasketItemsBasketItem$Plain$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<BasketItem>>> {
+  const rb = new RequestBuilder(rootUrl, getBasketItemsBasketItem$Plain.PATH, 'get');
   if (params) {
     rb.path('email', params.email, {});
   }
@@ -23,9 +23,9 @@ export function getUserBasketUser$Plain(http: HttpClient, rootUrl: string, param
   ).pipe(
     filter((r: any): r is HttpResponse<any> => r instanceof HttpResponse),
     map((r: HttpResponse<any>) => {
-      return r as StrictHttpResponse<Array<OrderItem>>;
+      return r as StrictHttpResponse<Array<BasketItem>>;
     })
   );
 }
 
-getUserBasketUser$Plain.PATH = '/User/{email}/basket';
+getBasketItemsBasketItem$Plain.PATH = '/BasketItem/{email}';

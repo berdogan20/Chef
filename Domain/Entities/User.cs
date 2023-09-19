@@ -25,11 +25,11 @@ namespace Chef.Domain.Entities
             Address = address;
         }
 
-        public void AddToBasket(Guid orderItemId, Guid foodItemId, byte amount, int price)
+        public void AddToBasket(string OrderId, Guid orderItemId, string foodItemId, byte amount, int price)
         {
             var user = this;
 
-            user.Basket.Add(new OrderItem(orderItemId, foodItemId, amount, price));
+            user.Basket.Add(new OrderItem(OrderId, orderItemId, foodItemId, amount, price));
 
         }
 

@@ -2,7 +2,8 @@
 /* eslint-disable */
 export interface OrderItem {
   amount?: number;
-  foodItemId?: string;
+  foodItemId?: null | string;
+  orderId?: null | string;
   orderItemId?: string;
   price?: number;
 }
